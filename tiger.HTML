@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>오행전설 - 디지털 산신각 탁기 제거</title>
+    <style>
+        body {
+            background-color: #0d0d0d;
+            color: #e0e0e0;
+            font-family: 'Malgun Gothic', sans-serif;
+            text-align: center;
+            padding: 20px;
+            margin: 0;
+        }
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            background: #1a1a1a;
+            border: 2px solid #333;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.8);
+        }
+        h1 {
+            color: #ffcc00;
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+        .subtitle {
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 20px;
+        }
+        .altar-box {
+            position: relative;
+            width: 100%;
+            height: 240px;
+            background: linear-gradient(to bottom, #1c1815, #0a0807);
+            border: 1px solid #444;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        .altar-box video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .action-btn {
+            background: #c0392b;
+            color: white;
+            border: none;
+            padding: 14px 0;
+            width: 100%;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+            box-shadow: 0 4px 10px rgba(192, 57, 43, 0.4);
+            margin-bottom: 20px;
+        }
+        .action-btn:hover {
+            background: #e74c3c;
+        }
+        .action-btn:disabled {
+            background: #555;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+        .result-box {
+            background: #222;
+            border-left: 4px solid #c0392b;
+            padding: 15px;
+            border-radius: 4px;
+            text-align: left;
+            min-height: 120px;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+        .result-title {
+            font-weight: bold;
+            color: #ffcc00;
+            margin-bottom: 8px;
+            font-size: 15px;
+        }
+        .cta-btn {
+            display: block;
+            margin-top: 20px;
+            background: #d35400;
+            color: white;
+            text-decoration: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+        .cta-btn:hover {
+            background: #e67e22;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>오행전설 : 탁기 걷어내기</h1>
+    <div class="subtitle">산신도의 영물이 깨어나 부정한 기운을 소멸시키는 공간</div>
+
+    <!-- 제단 영역 -->
+    <div class="altar-box" id="altar-container">
+        <video id="tiger-video" muted playsinline preload="auto">
+            <source src="tiger.mp4" type="video/mp4">
+            동영상을 지원하지 않는 브라우저입니다.
+        </video>
+    </div>
+
+    <!-- 탁기 걷어내기 액션 버튼 -->
+    <button class="action-btn" id="tiger-btn" onclick="runTiger()">호랑이 기운으로 탁기 걷어내기</button>
+
+    <!-- 결과 출력 영역 -->
+    <div class="result-box" id="result-area">
+        <div class="result-title">영물의 정화 공수</div>
+        <div id="result-text">제단에 기운을 모아 호랑이를 깨우면 사방의 탁기가 흔적 없이 사라집니다.</div>
+    </div>
+
+    <!-- 작가님 유튜브 채널 연결 버튼 -->
+    <a href="https://youtube.com/channel/UC19D_0wmj0BeSgRG3vdMsoQ?si=1UrtgWGpSbSWyVum" target="_blank" class="cta-btn">이 기운을 품고 전설 속으로 가기 (YouTube)</a>
+</div>
+
+<script>
+    const 정화문구모음 = [
+        "사방을 감싸던 탁한 연기가 호랑이의 포효 한 번에 흔적도 없이 흩어졌다.",
+        "답답하게 막혀 있던 기운이 뚫리고 맑고 거대한 태을의 기운이 밀려든다.",
+        "부정한 잡기들이 소멸하니 마음속까지 서늘하고 명쾌해지는구나.",
+        "황토고원의 거친 바람 속에서 영물의 가호가 너의 전신을 감싸 안는다."
+    ];
+
+    function runTiger() {
+        const btn = document.getElementById('tiger-btn');
+        const resultText = document.getElementById('result-text');
+        const video = document.getElementById('tiger-video');
+        
+        btn.disabled = true;
+        btn.innerText = "영물이 깨어나 탁기를 베어내는 중...";
+
+        // 비디오 강제 재생 실행
+        video.currentTime = 0;
+        let playPromise = video.play();
+
+        if (playPromise !== undefined) {
+            playPromise.then(_ => {
+                // 재생 성공
+            }).catch(error => {
+                console.log("재생 오류:", error);
+            });
+        }
+
+        // 2초 뒤 정화 문구 출력
+        setTimeout(() => {
+            const randomIdx = Math.floor(Math.random() * 정화문구모음.length);
+            const 선택된문구 = 정화문구모음[randomIdx];
+
+            resultText.innerHTML = `<span style="color:#ff9900; font-weight:bold;">[탁기가 걷힌 자리]</span><br><br>${선택된문구}`;
+            
+            btn.innerText = "정화 완료 (다시 하려면 새로고침)";
+        }, 2000);
+    }
+</script>
+
+</body>
+</html>

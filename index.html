@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>오행전설 - 디지털 산신각</title>
+    <style>
+        body {
+            background-image: url('altar_bg.jpg'); /* 배경 그림 파일명 */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            
+            color: #e0e0e0;
+            font-family: 'Malgun Gothic', sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            
+            /* 핵심: 박스를 오른쪽으로 보내고 세로 가운데로 맞추는 설정 */
+            display: flex;
+            justify-content: flex-end; /* 오른쪽으로 정렬! (왼쪽으로 하려면 flex-start) */
+            align-items: center;       /* 세로 기준 가운데 */
+            padding-right: 80px;       /* 우측 벽에서부터의 여백 (간격 조절 가능) */
+            box-sizing: border-box;
+        }
+
+        .main-overlay {
+            background-color: rgba(13, 13, 13, 0.85); /* 어두운 반투명 배경 */
+            width: 100%;
+            max-width: 420px;          /* 박스 크기를 살짝 아담하게 조절 */
+            border-radius: 12px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.8);
+            text-align: center;
+        }
+
+        h1 {
+            color: #ffcc00;
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            font-size: 13px;
+            color: #aaa;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        .menu-btn {
+            display: block;
+            background: rgba(0, 0, 0, 0.6);
+            color: #ffcc00;
+            border: 1px solid #555;
+            padding: 16px;
+            width: 100%;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: bold;
+            text-decoration: none;
+            margin-bottom: 15px;
+            transition: all 0.3s;
+            box-sizing: border-box;
+        }
+        .menu-btn:hover {
+            background: rgba(255, 204, 0, 0.15);
+            border-color: #ffcc00;
+            transform: translateY(-2px);
+        }
+        .menu-btn.tiger {
+            color: #e74c3c;
+            border-color: #8a2c20;
+        }
+        .menu-btn.tiger:hover {
+            background: rgba(231, 76, 60, 0.15);
+            border-color: #e74c3c;
+        }
+    </style>
+</head>
+<body>
+
+<div class="main-overlay">
+    <h1>오행전설 : 디지털 산신각</h1>
+    <div class="subtitle">황토고원 절벽 틈새<br>참배와 정화가 이루어지는 성스러운 공간</div>
+
+    <!-- 메뉴 버튼 3개 -->
+    <a href="fortune.html" class="menu-btn">🔮 오늘의 오행 운세 보기</a>
+    <a href="incense.html" class="menu-btn">🕯️ 산신 제단에 향 피우기</a>
+    <a href="tiger.html" class="menu-btn tiger">🐅 호랑이 기운으로 탁기 걷어내기</a>
+</div>
+
+</body>
+</html>

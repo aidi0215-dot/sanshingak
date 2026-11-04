@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>오행전설 - 디지털 산신각</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: #e0e0e0;
+            font-family: 'Malgun Gothic', sans-serif;
+            text-align: center;
+            padding: 20px;
+            margin: 0;
+        }
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            background: #1e1e1e;
+            border: 2px solid #333;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+        }
+        h1 {
+            color: #ffcc00;
+            font-size: 22px;
+            margin-bottom: 5px;
+        }
+        .subtitle {
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 20px;
+        }
+        .date-box {
+            background: #2a2a2a;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 14px;
+            color: #ff9900;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .zodiac-btn {
+            background: #2b2b2b;
+            color: #fff;
+            border: 1px solid #444;
+            padding: 12px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+            transition: all 0.2s;
+        }
+        .zodiac-btn:hover {
+            background: #ffcc00;
+            color: #121212;
+            border-color: #ffcc00;
+        }
+        .result-box {
+            background: #252525;
+            border-left: 4px solid #ffcc00;
+            padding: 15px;
+            border-radius: 4px;
+            text-align: left;
+            margin-top: 20px;
+            min-height: 100px;
+        }
+        .result-title {
+            font-weight: bold;
+            color: #ffcc00;
+            margin-bottom: 8px;
+        }
+        .cta-btn {
+            display: block;
+            margin-top: 25px;
+            background: #c0392b;
+            color: white;
+            text-decoration: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+        .cta-btn:hover {
+            background: #e74c3c;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>오행전설 : 디지털 산신각</h1>
+    <div class="subtitle">개인정보 없이 확인하는 무한 조합 산신 처방</div>
+
+    <div class="date-box" id="today-info">오늘의 일진 계산 중...</div>
+
+    <div style="font-size: 14px; margin-bottom: 10px; color: #aaa;">자신의 띠를 터치하여 기운을 받으세요</div>
+    
+    <!-- 12간지 버튼 그리드 -->
+    <div class="grid" id="zodiac-grid"></div>
+
+    <!-- 결과 출력 영역 -->
+    <div class="result-box" id="result-area">
+        <div class="result-title">산신의 한 줄 처방</div>
+        <div id="result-text">버튼을 누르면 산신령의 메시지가 강림합니다.</div>
+    </div>
+
+    <!-- 작가님 유튜브 채널 주소로 교체하세요 -->
+    <a href="https://youtube.com/channel/UC19D_0wmj0BeSgRG3vdMsoQ?si=1UrtgWGpSbSWyVum" target="_blank" class="cta-btn">이 기운을 품고 전설 속으로 가기 (YouTube)</a>
+</div>
+
+<script>
+    const 천간 = ["갑", "을", "병", "정", "무", "기", "경", "신", "임", "계"];
+    const 지지 = ["자", "축", "인", "묘", "진", "사", "오", "미", "신", "유", "술", "해"];
+    const 띠이름 = ["쥐띠", "소띠", "호랑이띠", "토끼띠", "용띠", "뱀띠", "말띠", "양띠", "원숭이띠", "닭띠", "개띠", "돼지띠"];
+    
+    // 1. 상황 조각들 (세계관 톤앤매너)
+    const 상황조각 = [
+        "삭막한 황토고원 절벽 틈새에 매서운 바람이 스치듯,",
+        "거대한 숲의 기운과 날카로운 쇳소리가 부딪히는 형국이니,",
+        "깊은 밤 백색 종의 영물이 울부짖어 탁한 기운을 걷어내듯,",
+        "보이지 않는 벽에 가로막혀 숨이 턱 끝까지 차오르는 시점이나,",
+        "태양의 불꽃이 대지를 달구듯 내면의 에너지가 최고조에 달했으니,"
+    ];
+
+    // 2. 핵심 처방 조각들
+    const 처방조각 = [
+        "지나간 낡은 데이터와 미련은 도끼로 내리치듯 과감히 끊어내라.",
+        "억지로 판을 흔들려 하지 말고 조용히 내실을 다지며 칼을 갈아라.",
+        "남들이 가지 않는 황무지라 할지라도 네가 디딘 그곳이 곧 새로운 길이다.",
+        "작은 성과에 흔들리지 말고 거대한 세계관의 뿌리를 더 깊게 내려라.",
+        "답답한 루프를 깨부수기 위해 완전히 새로운 시각으로 판을 뒤집어엎어라."
+    ];
+
+    // 3. 결말 덕담 조각들
+    const 결말조각 = [
+        "머지않아 구름이 걷히고 해가 떠오르듯 순식간에 판이 열릴 것이다.",
+        "호랑이가 숲을 달리듯 거침없는 비상의 기회가 찾아올 터이니 조급해 말라.",
+        "오늘 흘린 땀방울이 마침내 전설의 서사를 완성하는 거대한 불꽃이 되리라.",
+        "산신의 가호가 머물고 있으니, 네 안의 주도권을 절대 놓치지 말라."
+    ];
+
+    function getTodayGanji() {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = now.getMonth() + 1;
+        const day = now.getDate();
+
+        document.getElementById('today-info').innerText = `[오늘 날짜: ${year}년 ${month}월 ${day}일]`;
+
+        const startEpoch = new Date(2026, 0, 1).getTime();
+        const currentEpoch = new Date(year, month - 1, day).getTime();
+        const diffDays = Math.floor((currentEpoch - startEpoch) / (1000 * 60 * 60 * 24));
+        
+        const ganIndex = (diffDays + 2) % 10;
+        const jiIndex = (diffDays + 4) % 12;
+        
+        return 천간[ganIndex >= 0 ? ganIndex : 0] + 지지[jiIndex >= 0 ? jiIndex : 0];
+    }
+
+    const grid = document.getElementById('zodiac-grid');
+    띠이름.forEach((ti, index) => {
+        const btn = document.createElement('button');
+        btn.className = 'zodiac-btn';
+        btn.innerText = ti;
+        btn.onclick = () => showFortune(ti, index);
+        grid.appendChild(btn);
+    });
+
+    function showFortune(ti, index) {
+        const 오늘일진 = getTodayGanji();
+        
+        // 날짜 + 띠 + 무작위 난수를 섞어 매번 수백 가지 조합이 나오도록 수학적 계산
+        const now = new Date();
+        const seed = now.getDate() + now.getHours() + index;
+        
+        const r1 = (seed * 3) % 상황조각.length;
+        const r2 = (seed * 7 + index) % 처방조각.length;
+        const r3 = (seed * 11) % 결말조각.length;
+
+        const 조합된처방 = `${상황조각[r1]} ${처방조각[r2]} ${결말조각[r3]}`;
+        
+        const resultHTML = `
+            <span style="color:#ffcc00; font-weight:bold;">[${ti}]의 오행 공수</span><br>
+            - 당일 일진: <b>${오늘일진}의 날</b><br><br>
+            - <b>산신의 처방:</b><br>${조합된처방}
+        `;
+        document.getElementById('result-text').innerHTML = resultHTML;
+    }
+
+    window.onload = function() {
+        getTodayGanji();
+    }
+</script>
+
+</body>
+</html>
