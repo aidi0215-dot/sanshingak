@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>오행전설 - 디지털 산신각 명상의 방</title>
+    <style>
+        body {
+            background-color: #0d0d0d;
+            color: #e0e0e0;
+            font-family: 'Malgun Gothic', sans-serif;
+            text-align: center;
+            padding: 20px;
+            margin: 0;
+        }
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            background: #1a1a1a;
+            border: 2px solid #333;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.8);
+        }
+        h1 {
+            color: #ffcc00;
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+        .subtitle {
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 20px;
+        }
+        /* 명상 영상 박스 */
+        .meditation-box {
+            position: relative;
+            width: 100%;
+            height: 260px;
+            background: linear-gradient(to bottom, #1c1815, #0a0807);
+            border: 1px solid #444;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        .meditation-box video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        /* 호흡 및 안내 가이드 텍스트 */
+        .meditation-guide {
+            font-size: 15px;
+            color: #ffcc00;
+            font-weight: bold;
+            margin-bottom: 20px;
+            min-height: 24px;
+            line-height: 1.5;
+        }
+        /* 명상 시작 버튼 */
+        .action-btn {
+            background: #d35400;
+            color: white;
+            border: none;
+            padding: 14px 0;
+            width: 100%;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+            box-shadow: 0 4px 10px rgba(211, 84, 0, 0.4);
+            margin-bottom: 20px;
+        }
+        .action-btn:hover {
+            background: #e67e22;
+        }
+        .action-btn:disabled {
+            background: #555;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+        /* 명상 결과 카드 스타일 */
+        .card-box {
+            background: linear-gradient(135deg, #2b1d0c, #141414);
+            border: 2px solid #ffcc00;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: left;
+            margin-top: 20px;
+            box-shadow: 0 0 15px rgba(255, 204, 0, 0.2);
+            display: none;
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px dashed #444;
+            padding-bottom: 10px;
+            margin-bottom: 12px;
+        }
+        .card-title {
+            font-size: 15px;
+            font-weight: bold;
+            color: #ffcc00;
+        }
+        .card-badge {
+            font-size: 12px;
+            background: #333;
+            color: #aaa;
+            padding: 3px 8px;
+            border-radius: 4px;
+        }
+        .result-text {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #ddd;
+        }
+        .cta-btn {
+            display: block;
+            margin-top: 25px;
+            background: #c0392b;
+            color: white;
+            text-decoration: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+        .cta-btn:hover {
+            background: #e74c3c;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>오행전설 : 디지털 명상의 방</h1>
+    <div class="subtitle">고요한 적막 속에서 마음의 짐을 내려놓는 공간</div>
+
+    <!-- 명상 루프 영상 영역 -->
+    <div class="meditation-box">
+        <video id="meditation-video" autoplay loop muted playsinline>
+            <source src="meditation.mp4" type="video/mp4">
+            동영상을 지원하지 않는 브라우저입니다.
+        </video>
+    </div>
+
+    <!-- 호흡 가이드 텍스트 -->
+    <div class="meditation-guide" id="meditation-guide-text">
+        숨을 깊이 들이쉬고 황토고원의 기운을 채우십시오.
+    </div>
+
+    <!-- 명상 시작 액션 버튼 -->
+    <button class="action-btn" id="meditation-btn" onclick="startMeditation()">내면의 명상 시작하기</button>
+
+    <!-- 명상 결과 카드 -->
+    <div class="card-box" id="meditation-card">
+        <div class="card-header">
+            <span class="card-title">🌿 산신의 내면 처방</span>
+            <span class="card-badge">마음 정화</span>
+        </div>
+        <div class="result-text" id="meditation-result-text">
+            명상을 통해 탁한 기운을 비워내면 깊은 울림의 메시지가 전해집니다.
+        </div>
+    </div>
+
+    <!-- 작가님 유튜브 채널 연결 버튼 -->
+    <a href="https://youtube.com/channel/UC19D_0wmj0BeSgRG3vdMsoQ?si=1UrtgWGpSbSWyVum" target="_blank" class="cta-btn">이 기운을 품고 전설 속으로 가기 (YouTube)</a>
+</div>
+
+<script>
+    // 명상 문구 데이터셋
+    const 명상문구집 = [
+        "지나간 헛된 생각들은 황토고원의 바람에 모두 실어 보내십시오.",
+        "내면 깊은 곳에서 피어오르는 고요한 불꽃에 집중하십시오.",
+        "조급했던 마음을 씻어내고 대지의 단단한 기운을 온전히 채우십시오.",
+        "흐트러진 호흡을 가다듬을 때 비로소 새로운 서사의 길이 열립니다.",
+        "사방을 감싸는 백색 영물의 울음소리와 함께 마음의 결을 정돈하십시오."
+    ];
+
+    // 페이지 접속 시 명상 영상 자동 재생 보장
+    window.onload = function() {
+        const video = document.getElementById('meditation-video');
+        if (video) {
+            video.play().catch(e => {
+                console.log("자동 재생 제한 우회 필요 시 대기");
+            });
+        }
+    };
+
+    function startMeditation() {
+        const btn = document.getElementById('meditation-btn');
+        const guideText = document.getElementById('meditation-guide-text');
+        const medCard = document.getElementById('meditation-card');
+        const medResultText = document.getElementById('meditation-result-text');
+        
+        btn.disabled = true;
+        btn.innerText = "명상에 깊이 몰입하는 중...";
+        guideText.innerText = "🌿 숨을 깊이 들이쉬고... 내쉬며 마음을 비우는 중...";
+
+        // 2.5초 동안 몰입 연출 후 결과 카드 띄우기
+        setTimeout(() => {
+            const seed = Date.now() + Math.floor(Math.random() * 1000);
+            const 선택문구 = 명상문구집[seed % 명상문구집.length];
+
+            medResultText.innerHTML = `산신의 깊은 호흡이 닿았습니다.<br><br><b>"${선택문구}"</b><br><br>오늘 하루도 흔들림 없이 당신만의 전설을 써 내려가십시오.`;
+            medCard.style.display = "block";
+            
+            guideText.innerText = "✨ 평온한 기운이 몸을 가득 채웠습니다.";
+            btn.innerText = "명상 완료 (다시 하려면 새로고침)";
+        }, 2500);
+    }
+</script>
+
+</body>
+</html>

@@ -19,16 +19,16 @@
             
             /* 핵심: 박스를 오른쪽으로 보내고 세로 가운데로 맞추는 설정 */
             display: flex;
-            justify-content: flex-end; /* 오른쪽으로 정렬! (왼쪽으로 하려면 flex-start) */
+            justify-content: flex-end; /* 오른쪽으로 정렬! */
             align-items: center;       /* 세로 기준 가운데 */
-            padding-right: 80px;       /* 우측 벽에서부터의 여백 (간격 조절 가능) */
+            padding-right: 80px;       /* 우측 벽에서부터의 여백 */
             box-sizing: border-box;
         }
 
         .main-overlay {
             background-color: rgba(13, 13, 13, 0.85); /* 어두운 반투명 배경 */
             width: 100%;
-            max-width: 420px;          /* 박스 크기를 살짝 아담하게 조절 */
+            max-width: 420px;          /* 박스 크기 */
             border-radius: 12px;
             padding: 30px;
             border: 1px solid rgba(255, 255, 255, 0.15);
@@ -44,7 +44,7 @@
         .subtitle {
             font-size: 13px;
             color: #aaa;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
             line-height: 1.6;
         }
         .menu-btn {
@@ -52,13 +52,13 @@
             background: rgba(0, 0, 0, 0.6);
             color: #ffcc00;
             border: 1px solid #555;
-            padding: 16px;
+            padding: 15px;
             width: 100%;
             border-radius: 8px;
             font-size: 15px;
             font-weight: bold;
             text-decoration: none;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             transition: all 0.3s;
             box-sizing: border-box;
         }
@@ -75,6 +75,15 @@
             background: rgba(231, 76, 60, 0.15);
             border-color: #e74c3c;
         }
+        /* 명상 방 버튼 포인트 스타일 */
+        .menu-btn.meditation {
+            color: #3498db;
+            border-color: #2471a3;
+        }
+        .menu-btn.meditation:hover {
+            background: rgba(52, 152, 219, 0.15);
+            border-color: #3498db;
+        }
     </style>
 </head>
 <body>
@@ -83,9 +92,10 @@
     <h1>오행전설 : 디지털 산신각</h1>
     <div class="subtitle">황토고원 절벽 틈새<br>참배와 정화가 이루어지는 성스러운 공간</div>
 
-    <!-- 메뉴 버튼 3개 -->
+    <!-- 메뉴 버튼들 -->
     <a href="fortune.html" class="menu-btn">🔮 오늘의 오행 운세 보기</a>
     <a href="incense.html" class="menu-btn">🕯️ 산신 제단에 향 피우기</a>
+    <a href="meditation.html" class="menu-btn meditation">🧘‍♂️ 고요한 명상의 방 들어가기</a>
     <a href="tiger.html" class="menu-btn tiger">🐅 호랑이 기운으로 탁기 걷어내기</a>
 </div>
 

@@ -52,7 +52,7 @@
             background: #c0392b;
             color: white;
             border: none;
-            padding: 14px 0;
+            padding: 16px 0;
             width: 100%;
             border-radius: 8px;
             font-size: 16px;
@@ -64,11 +64,6 @@
         }
         .action-btn:hover {
             background: #e74c3c;
-        }
-        .action-btn:disabled {
-            background: #555;
-            cursor: not-allowed;
-            box-shadow: none;
         }
         .result-box {
             background: #222;
@@ -109,18 +104,18 @@
     <div class="subtitle">산신도의 영물이 깨어나 부정한 기운을 소멸시키는 공간</div>
 
     <!-- 제단 영역 -->
-    <div class="altar-box" id="altar-container">
-        <video id="tiger-video" muted playsinline preload="auto">
+    <div class="altar-box">
+        <video id="tiger-video" muted playsinline>
             <source src="tiger.mp4" type="video/mp4">
             동영상을 지원하지 않는 브라우저입니다.
         </video>
     </div>
 
-    <!-- 탁기 걷어내기 액션 버튼 -->
-    <button class="action-btn" id="tiger-btn" onclick="runTiger()">호랑이 기운으로 탁기 걷어내기</button>
+    <!-- 탁기 걷어내기 액션 버튼 (onclick 속성 제거 후 자바스크립트로 안전 제어) -->
+    <button class="action-btn" id="tiger-btn" type="button">호랑이 기운으로 탁기 걷어내기</button>
 
     <!-- 결과 출력 영역 -->
-    <div class="result-box" id="result-area">
+    <div class="result-box">
         <div class="result-title">영물의 정화 공수</div>
         <div id="result-text">제단에 기운을 모아 호랑이를 깨우면 사방의 탁기가 흔적 없이 사라집니다.</div>
     </div>
@@ -130,43 +125,63 @@
 </div>
 
 <script>
-    const 정화문구모음 = [
-        "사방을 감싸던 탁한 연기가 호랑이의 포효 한 번에 흔적도 없이 흩어졌다.",
-        "답답하게 막혀 있던 기운이 뚫리고 맑고 거대한 태을의 기운이 밀려든다.",
-        "부정한 잡기들이 소멸하니 마음속까지 서늘하고 명쾌해지는구나.",
-        "황토고원의 거친 바람 속에서 영물의 가호가 너의 전신을 감싸 안는다."
+    const 정화도입부 = [
+        "사방을 무겁게 짓누르던 탁한 연기가 호랑이의 맹렬한 포효 한 번에 흔적도 없이 흩어지고,",
+        "황토고원의 차가운 바람을 뚫고 영물의 거대한 눈빛이 사방의 부정한 기운을 매섭게 노려보며,",
+        "답답하게 막혀 있던 오행의 흐름 속에서 짐승의 묵직한 울음소리가 대지를 뒤흔들며 울려 퍼지고,",
+        "칠흑 같은 어둠 속에서 백색 영물의 압도적인 기세가 폭발하듯 뿜어져 나와 탁기를 휘감아 치고,",
+        "지치고 무거워진 몸과 마음을 짓누르던 탁한 기운들이 영물의 발톱 아래 순식간에 결박되어 부서지듯,"
     ];
 
-    function runTiger() {
+    const 정화본문 = [
+        "지나간 낡은 미련과 불필요한 걱정들은 도끼로 내리치듯 완전히 끊어내 버려라.",
+        "스스로를 얽매던 헛된 집착을 남김없이 태워버리고 맑고 단단한 내면의 중심을 다시 세워라.",
+        "흐트러진 호흡을 곧게 바로잡고 네 안의 날카로운 결단을 되찾아 판을 새롭게 주도해 나가라.",
+        "남들이 만들어 낸 잣대와 시선에 갇히지 말고 네가 직접 디디는 거친 대지 위에서 당당히 일어서라."
+    ];
+
+    const 정화결말 = [
+        "마음속까지 서늘하고 명쾌해지며 거침없는 비상의 기회가 찬란하게 열리리라.",
+        "영물의 가호가 전신을 든든히 감싸 안아 오늘 하루 너를 그 어떤 시련에도 무적으로 만들어 줄 것이다.",
+        "어둠이 완전히 걷히고 태을의 찬란한 기운이 네 앞길을 거침없이 비추기 시작하리라.",
+        "오늘 흘린 정성과 정화의 기도가 마침내 네 안의 새로운 전설을 완벽하게 완성하리라."
+    ];
+
+    // 페이지가 완전히 로드된 후 버튼에 이벤트를 강제로 안전하게 부착
+    document.addEventListener('DOMContentLoaded', function() {
         const btn = document.getElementById('tiger-btn');
         const resultText = document.getElementById('result-text');
         const video = document.getElementById('tiger-video');
-        
-        btn.disabled = true;
-        btn.innerText = "영물이 깨어나 탁기를 베어내는 중...";
 
-        // 비디오 강제 재생 실행
-        video.currentTime = 0;
-        let playPromise = video.play();
+        if (btn) {
+            btn.addEventListener('click', function() {
+                btn.disabled = true;
+                btn.innerText = "영물이 깨어나 탁기를 베어내는 중...";
 
-        if (playPromise !== undefined) {
-            playPromise.then(_ => {
-                // 재생 성공
-            }).catch(error => {
-                console.log("재생 오류:", error);
+                if (video) {
+                    try {
+                        video.currentTime = 0;
+                        video.play().catch(() => {});
+                    } catch (e) {}
+                }
+
+                setTimeout(() => {
+                    const seed = Date.now() + Math.floor(Math.random() * 100000);
+                    
+                    const r1 = seed % 정화도입부.length;
+                    const r2 = Math.floor(seed / 7) % 정화본문.length;
+                    const r3 = Math.floor(seed / 13) % 정화결말.length;
+
+                    const 조합된정화문구 = `${정화도입부[r1]}<br><br>${정화본문[r2]}<br><br>${정화결말[r3]}`;
+
+                    if (resultText) {
+                        resultText.innerHTML = `<span style="color:#ff9900; font-weight:bold;">[탁기가 말끔히 걷힌 자리의 공수]</span><br><br>${조합된정화문구}`;
+                    }
+                    btn.innerText = "정화 완료 (다시 하려면 새로고침)";
+                }, 1000);
             });
         }
-
-        // 2초 뒤 정화 문구 출력
-        setTimeout(() => {
-            const randomIdx = Math.floor(Math.random() * 정화문구모음.length);
-            const 선택된문구 = 정화문구모음[randomIdx];
-
-            resultText.innerHTML = `<span style="color:#ff9900; font-weight:bold;">[탁기가 걷힌 자리]</span><br><br>${선택된문구}`;
-            
-            btn.innerText = "정화 완료 (다시 하려면 새로고침)";
-        }, 2000);
-    }
+    });
 </script>
 
 </body>
