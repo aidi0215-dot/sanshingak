@@ -120,75 +120,99 @@
     const 지지 = ["자", "축", "인", "묘", "진", "사", "오", "미", "신", "유", "술", "해"];
     const 띠이름 = ["쥐띠", "소띠", "호랑이띠", "토끼띠", "용띠", "뱀띠", "말띠", "양띠", "원숭이띠", "닭띠", "개띠", "돼지띠"];
     
-    // 1. 고대 판타지 세계관 분위기의 상황 조각 (총 7개)
     const 상황조각 = [
-        "황토고원 거친 칼바람이 절벽 끝을 스쳐 지나가고,",
-        "깊은 숲속에서 백색 종의 영물이 울부짖어 탁한 기운을 흔들고,",
-        "태양의 불꽃이 드넓은 대지를 뜨겁게 달구는 형국이며,",
-        "쇠와 숲의 기운이 치열하게 맞부딪쳐 사방에 불꽃이 튀고,",
-        "보이지 않는 거대한 장막이 가로막혀 숨이 턱 끝까지 차오르나,",
-        "칠흑 같은 밤바람을 뚫고 한 줄기 신비로운 빛이 대지를 비추듯,",
-        "천지가 요동치며 새로운 오행의 흐름이 급격히 열리는 시점이니,"
+        "황토고원 거친 칼바람이 절벽 끝을 매섭게 스쳐 지나가고,",
+        "깊은 숲속에서 백색 종의 영물이 울부짖어 사방의 탁한 기운을 흔들고,",
+        "태양의 불꽃이 드넓은 대지를 뜨겁게 달구어 아지랑이가 피어오르듯,",
+        "쇠와 숲의 기운이 치열하게 맞부딪쳐 어둠 속에 날카로운 불꽃이 튀고,",
+        "보이지 않는 거대한 장막이 앞을 가로막아 숨이 턱 끝까지 차오르나,",
+        "칠흑 같은 밤바람을 뚫고 한 줄기 신비로운 영검의 빛이 대지를 비추듯,",
+        "천지가 요동치며 오행의 흐름이 새로운 국면으로 급격히 전환되는 시점이니,",
+        "안개 낀 고대 협곡에 사방의 경계가 무너지고 거대한 기운이 응축되니,",
+        "차갑게 식어 있던 대지의 맥동이 다시금 뜨겁게 깨어나는 형국이며,",
+        "흐린 구름 사이로 백색 종의 울음소리가 메아리처럼 즘을 타고 퍼져나가니,",
+        "거친 황야를 가로지르는 맹렬한 기세처럼 내면의 의지가 타오를 때,",
+        "보이지 않는 운명의 수레바퀴가 맞물려 새로운 균형을 찾아가듯,"
     ];
 
-    // 2. 현실적이면서도 묵직한 처방 조각 (총 7개)
     const 처방조각 = [
         "주변의 헛된 소음에 흔들리지 말고 네가 걸어가는 길의 중심을 굳건히 지켜라.",
-        "묵묵히 내실을 다지며 칼을 갈고 있다면, 머지않아 그 노력이 거대한 파문이 되어 돌아올 것이다.",
+        "묵묵히 내실을 다지며 힘을 기르고 있다면, 머지않아 그 노력이 거대한 파문이 되어 돌아올 것이다.",
         "오래도록 막혀 있던 답답한 일들이 뜻밖의 귀인의 도움이나 기회로 시원하게 풀릴 것이다.",
         "조급하게 마음을 먹으면 이뤄질 일도 어긋나는 법이니, 한 걸음 물러서서 호흡을 가다듬어라.",
         "과감하게 결단해야 할 때가 왔으니, 망설이지 말고 네 직관을 믿고 앞으로 나아가라.",
         "작은 성취에 안주하지 말고 더 넓은 세상을 향해 시선을 과감하게 던져보라.",
-        "지나간 일에 마음을 쓰기보다는 다가올 새로운 기회와 에너지를 온전히 받아들여라."
+        "지나간 일에 마음을 쓰기보다는 다가올 새로운 기회와 에너지를 온전히 받아들여라.",
+        "눈앞의 장애물에 얽매이지 말고 흐름을 거스르지 않는 지혜로운 대처가 필요한 때다.",
+        "잠시 멈춰 서서 지나온 발자취를 돌아보면, 그 속에 이미 해결책이 숨겨져 있을 것이다.",
+        "스스로의 잠재운 역량을 의심하지 말고 과감하게 판을 주도해 나가라.",
+        "예상치 못한 변화가 다가오더라도 당황하지 말고 흐름에 몸을 맡겨 유연하게 대처하라.",
+        "흩어졌던 집중력을 하나로 모아 가장 중요한 목표를 향해 정면으로 돌파하라."
     ];
 
-    // 3. 덕담 및 결말 조각 (총 6개)
     const 결말조각 = [
         "산신의 가호가 머물고 있으니 오늘 하루 거침없는 비상의 기회가 찾아오리라.",
         "네가 흘린 땀방울이 마침내 눈부신 성취의 불꽃으로 피어날 것이다.",
         "사방의 기운이 네 편으로 향하고 있으니 자신감을 갖고 과감히 도전하라.",
         "마음의 짐을 털어내고 가벼운 발걸음으로 행운을 맞이할 준비를 하라.",
         "어둠이 걷히고 찬란한 태양이 떠오르듯 막막했던 판이 순식간에 열릴 것이다.",
-        "오늘 하루 네가 디디는 모든 발걸음이 새로운 전설의 시작이 되리라."
+        "오늘 하루 네가 디디는 모든 발걸음이 새로운 전설의 시작이 되리라.",
+        "막혀 있던 운의 흐름이 순풍을 만난 듯 거침없이 트이기 시작할 것이다.",
+        "내면의 단단한 결기가 마침내 주위의 모든 상황을 네게 유리하게 이끌어주리라.",
+        "뜻밖의 행운과 귀인이 네 곁에서 든든한 방패가 되어 비상을 도울 것이다.",
+        "시간이 지날수록 더 큰 빛을 발하며 네가 바라는 목표에 한 걸음 더 다가서리라."
     ];
 
     function getTodayGanji() {
-        const now = new Date();
-        const year = now.getFullYear();
-        const month = now.getMonth() + 1;
-        const day = now.getDate();
+        try {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = now.getMonth() + 1;
+            const day = now.getDate();
 
-        document.getElementById('today-info').innerText = `[오늘 날짜: ${year}년 ${month}월 ${day}일]`;
+            const dateBox = document.getElementById('today-info');
+            if (dateBox) {
+                dateBox.innerText = `[오늘 날짜: ${year}년 ${month}월 ${day}일]`;
+            }
 
-        const startEpoch = new Date(2026, 0, 1).getTime();
-        const currentEpoch = new Date(year, month - 1, day).getTime();
-        const diffDays = Math.floor((currentEpoch - startEpoch) / (1000 * 60 * 60 * 24));
-        
-        const ganIndex = (diffDays + 2) % 10;
-        const jiIndex = (diffDays + 4) % 12;
-        
-        return 천간[ganIndex >= 0 ? ganIndex : 0] + 지지[jiIndex >= 0 ? jiIndex : 0];
+            const startEpoch = new Date(2026, 0, 1).getTime();
+            const currentEpoch = new Date(year, month - 1, day).getTime();
+            const diffDays = Math.floor((currentEpoch - startEpoch) / (1000 * 60 * 60 * 24));
+            
+            const ganIndex = (diffDays + 2) % 10;
+            const jiIndex = (diffDays + 4) % 12;
+            
+            return 천간[ganIndex >= 0 ? ganIndex : 0] + 지지[jiIndex >= 0 ? jiIndex : 0];
+        } catch (e) {
+            return "갑자";
+        }
     }
 
-    const grid = document.getElementById('zodiac-grid');
-    띠이름.forEach((ti, index) => {
-        const btn = document.createElement('button');
-        btn.className = 'zodiac-btn';
-        btn.innerText = ti;
-        // 클릭할 때마다 고유 인덱스와 밀리초 기반 랜덤 요소를 강제로 섞어 매번 다른 조합 유도
-        btn.onclick = () => showFortune(ti, index);
-        grid.appendChild(btn);
+    // 페이지 로드 즉시 실행되도록 수정 (안전 장치 추가)
+    window.addEventListener('DOMContentLoaded', function() {
+        getTodayGanji();
+
+        const grid = document.getElementById('zodiac-grid');
+        if (grid) {
+            grid.innerHTML = ""; // 중복 생성 방지
+            띠이름.forEach((ti, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'zodiac-btn';
+                btn.innerText = ti;
+                btn.onclick = () => showFortune(ti, index);
+                grid.appendChild(btn);
+            });
+        }
     });
 
     function showFortune(ti, index) {
         const 오늘일진 = getTodayGanji();
         
-        // 시각(밀리초)과 띠 고유 번호, 무작위 난수를 조합하여 누를 때마다 조합이 다채롭게 바뀌도록 수정
-        const randomSeed = Math.floor(Math.random() * 1000) + new Date().getMilliseconds() + index;
+        const randomSeed = Math.floor(Math.random() * 10000) + new Date().getMilliseconds() + index * 37;
         
         const r1 = randomSeed % 상황조각.length;
         const r2 = (randomSeed * 3 + index) % 처방조각.length;
-        const r3 = (randomSeed * 7) % 결말조각.length;
+        const r3 = (randomSeed * 7 + 13) % 결말조각.length;
 
         const 조합된처방 = `${상황조각[r1]} ${처방조각[r2]} ${결말조각[r3]}`;
         
@@ -197,11 +221,11 @@
             - 당일 일진: <b>${오늘일진}의 날</b><br><br>
             - <b>산신의 처방:</b><br>${조합된처방}
         `;
-        document.getElementById('result-text').innerHTML = resultHTML;
-    }
-
-    window.onload = function() {
-        getTodayGanji();
+        
+        const resultText = document.getElementById('result-text');
+        if (resultText) {
+            resultText.innerHTML = resultHTML;
+        }
     }
 </script>
 
