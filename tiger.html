@@ -65,6 +65,11 @@
         .action-btn:hover {
             background: #e74c3c;
         }
+        .action-btn:disabled {
+            background: #555;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
         .result-box {
             background: #222;
             border-left: 4px solid #c0392b;
@@ -103,7 +108,7 @@
     <h1>오행전설 : 탁기 걷어내기</h1>
     <div class="subtitle">산신도의 영물이 깨어나 부정한 기운을 소멸시키는 공간</div>
 
-    <!-- 제단 영역 -->
+    <!-- 제단 영역 (자동재생을 위해 초기엔 음소거 포함) -->
     <div class="altar-box">
         <video id="tiger-video" muted playsinline>
             <source src="tiger.mp4" type="video/mp4">
@@ -111,8 +116,8 @@
         </video>
     </div>
 
-    <!-- 탁기 걷어내기 액션 버튼 (onclick 속성 제거 후 자바스크립트로 안전 제어) -->
-    <button class="action-btn" id="tiger-btn" type="button">호랑이 기운으로 탁기 걷어내기</button>
+    <!-- 탁기 걷어내기 액션 버튼 -->
+    <button class="action-btn" id="tiger-btn" type="button">🐅 호랑이 기운으로 탁기 걷어내기 (사운드 켜기)</button>
 
     <!-- 결과 출력 영역 -->
     <div class="result-box">
@@ -147,7 +152,6 @@
         "오늘 흘린 정성과 정화의 기도가 마침내 네 안의 새로운 전설을 완벽하게 완성하리라."
     ];
 
-    // 페이지가 완전히 로드된 후 버튼에 이벤트를 강제로 안전하게 부착
     document.addEventListener('DOMContentLoaded', function() {
         const btn = document.getElementById('tiger-btn');
         const resultText = document.getElementById('result-text');
@@ -160,6 +164,8 @@
 
                 if (video) {
                     try {
+                        // 버튼 클릭 시 음소거를 해제하고 사운드 포함 재생
+                        video.muted = false;
                         video.currentTime = 0;
                         video.play().catch(() => {});
                     } catch (e) {}

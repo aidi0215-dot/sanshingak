@@ -153,9 +153,9 @@
     <h1>오행전설 : 제단 향 피우기</h1>
     <div class="subtitle">황토고원 절벽 틈새, 간절한 소원을 담아 향을 올리는 공간</div>
 
-    <!-- 제단 영상 영역 -->
+    <!-- 제단 영상 영역 (브라우저 정책 충돌을 막기 위해 초기엔 muted 유지) -->
     <div class="altar-box">
-        <video id="altar-video" muted playsinline>
+        <video id="altar-video" autoplay loop muted playsinline>
             <source src="altar.mp4" type="video/mp4">
             동영상을 지원하지 않는 브라우저입니다.
         </video>
@@ -245,15 +245,16 @@
                 btn.disabled = true;
                 btn.innerText = "향이 타오르며 소원이 산신께 전달되는 중...";
 
-                // 비디오 재생 시도 (파일이 없거나 에러가 나도 결과 출력에 지장 없도록 안전 처리)
+                // 사용자가 버튼을 누른 순간에만 음소거를 안전하게 해제하고 사운드와 함께 재생
                 if (video) {
                     try {
+                        video.muted = false; 
                         video.currentTime = 0;
                         video.play().catch(() => {});
                     } catch (e) {}
                 }
 
-                // 2초 뒤 결과 카드 강제 출력 (에러 차단)
+                // 2초 뒤 결과 카드 출력 (지연 방어 코드 적용)
                 setTimeout(() => {
                     const seed = Date.now() + wishText.length + Math.floor(Math.random() * 10000);
                     
