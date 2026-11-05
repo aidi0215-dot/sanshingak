@@ -153,7 +153,7 @@
     <h1>오행전설 : 제단 향 피우기</h1>
     <div class="subtitle">황토고원 절벽 틈새, 간절한 소원을 담아 향을 올리는 공간</div>
 
-    <!-- 제단 영상 영역 (브라우저 정책 충돌을 막기 위해 초기엔 muted 유지) -->
+    <!-- 제단 영상 영역 -->
     <div class="altar-box">
         <video id="altar-video" autoplay loop muted playsinline>
             <source src="altar.mp4" type="video/mp4">
@@ -167,8 +167,8 @@
         <input type="text" id="wish-input" class="wish-input" placeholder="예: 진행하는 일이 순조롭게 풀리게 해주소서">
     </div>
 
-    <!-- 향 피우기 액션 버튼 -->
-    <button class="action-btn" id="incense-btn" type="button">정성을 담아 향 피우고 소원 빌기</button>
+    <!-- 향 피우기 액션 버튼 (사운드 켜기 추가) -->
+    <button class="action-btn" id="incense-btn" type="button">정성을 담아 향 피우고 소원 빌기 (사운드 켜기)</button>
 
     <!-- 소원 성취 부적 카드 결과 영역 -->
     <div class="talisman-card" id="talisman-card">
@@ -245,16 +245,16 @@
                 btn.disabled = true;
                 btn.innerText = "향이 타오르며 소원이 산신께 전달되는 중...";
 
-                // 사용자가 버튼을 누른 순간에만 음소거를 안전하게 해제하고 사운드와 함께 재생
+                // 버튼 누를 때 음소거 해제 후 사운드 포함 재생
                 if (video) {
                     try {
-                        video.muted = false; 
+                        video.muted = false;
                         video.currentTime = 0;
                         video.play().catch(() => {});
                     } catch (e) {}
                 }
 
-                // 2초 뒤 결과 카드 출력 (지연 방어 코드 적용)
+                // 2초 뒤 결과 카드 출력
                 setTimeout(() => {
                     const seed = Date.now() + wishText.length + Math.floor(Math.random() * 10000);
                     
