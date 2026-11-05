@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>오행전설 - 디지털 산신각 명상의 방</title>
+    <title>오행전설 - 디지털 명상의 방</title>
     <style>
         body {
             background-color: #0d0d0d;
@@ -139,7 +139,7 @@
     <h1>오행전설 : 디지털 명상의 방</h1>
     <div class="subtitle">고요한 적막 속에서 마음의 짐을 내려놓는 공간</div>
 
-    <!-- 명상 루프 영상 영역 -->
+    <!-- 명상 루프 영상 영역 (초기 자동재생을 위해 음소거 포함) -->
     <div class="meditation-box">
         <video id="meditation-video" autoplay loop muted playsinline>
             <source src="meditation.mp4" type="video/mp4">
@@ -153,7 +153,7 @@
     </div>
 
     <!-- 명상 시작 액션 버튼 -->
-    <button class="action-btn" id="meditation-btn" onclick="startMeditation()">내면의 명상 시작하기</button>
+    <button class="action-btn" id="meditation-btn" onclick="startMeditation()">🌿 내면의 명상 시작하기 (사운드 켜기)</button>
 
     <!-- 명상 결과 카드 -->
     <div class="card-box" id="meditation-card">
@@ -171,7 +171,6 @@
 </div>
 
 <script>
-    // 명상 문구 데이터셋
     const 명상문구집 = [
         "지나간 헛된 생각들은 황토고원의 바람에 모두 실어 보내십시오.",
         "내면 깊은 곳에서 피어오르는 고요한 불꽃에 집중하십시오.",
@@ -180,21 +179,18 @@
         "사방을 감싸는 백색 영물의 울음소리와 함께 마음의 결을 정돈하십시오."
     ];
 
-    // 페이지 접속 시 명상 영상 자동 재생 보장
-    window.onload = function() {
-        const video = document.getElementById('meditation-video');
-        if (video) {
-            video.play().catch(e => {
-                console.log("자동 재생 제한 우회 필요 시 대기");
-            });
-        }
-    };
-
     function startMeditation() {
         const btn = document.getElementById('meditation-btn');
         const guideText = document.getElementById('meditation-guide-text');
         const medCard = document.getElementById('meditation-card');
         const medResultText = document.getElementById('meditation-result-text');
+        const video = document.getElementById('meditation-video');
+        
+        // 버튼을 누르는 순간 비디오의 음소거(muted)를 풀고 소리를 켬
+        if (video) {
+            video.muted = false;
+            video.play().catch(e => console.log("비디오 사운드 재생 예외:", e));
+        }
         
         btn.disabled = true;
         btn.innerText = "명상에 깊이 몰입하는 중...";
