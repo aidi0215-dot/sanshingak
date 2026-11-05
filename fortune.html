@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>오행전설 - 디지털 산신각 소원성취 참배</title>
+    <title>오늘의 띠별 운세</title>
     <style>
         body {
-            background-color: #0d0d0d;
+            background-color: #121212;
             color: #e0e0e0;
             font-family: 'Malgun Gothic', sans-serif;
             text-align: center;
@@ -16,124 +16,84 @@
         .container {
             max-width: 480px;
             margin: 0 auto;
-            background: #1a1a1a;
+            background: #1e1e1e;
             border: 2px solid #333;
             border-radius: 12px;
             padding: 25px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.8);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.6);
         }
         h1 {
             color: #ffcc00;
-            font-size: 20px;
+            font-size: 22px;
             margin-bottom: 5px;
         }
         .subtitle {
             font-size: 13px;
             color: #888;
-            margin-bottom: 20px;
-        }
-        .altar-box {
-            position: relative;
-            width: 100%;
-            height: 240px;
-            background: linear-gradient(to bottom, #1c1815, #0a0807);
-            border: 1px solid #444;
-            border-radius: 8px;
-            overflow: hidden;
-            margin-bottom: 20px;
-        }
-        .altar-box video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-        /* 소원 입력창 스타일 수정 */
-        .wish-input-box {
             margin-bottom: 15px;
-            text-align: left;
-            position: relative;
-            z-index: 10;
         }
-        .wish-input-box label {
-            display: block;
-            font-size: 13px;
-            color: #ffcc00;
-            margin-bottom: 6px;
+        .date-box {
+            background: #2a2a2a;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 14px;
+            color: #ff9900;
+            margin-bottom: 20px;
             font-weight: bold;
         }
-        .wish-input {
-            width: 100%;
-            padding: 12px;
-            background: #111;
-            border: 1px solid #555;
-            border-radius: 6px;
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        /* 코드만으로 그리는 일러스트 카드 버튼 스타일 */
+        .zodiac-btn {
+            background: #2b2b2b;
+            border: 2px solid #444; /* 도톰한 테두리 */
+            border-radius: 12px;
+            padding: 15px 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 90px; /* 버튼 높이 확보 */
+        }
+        .zodiac-btn:hover {
+            border-color: #ffcc00;
+            background: rgba(255, 204, 0, 0.05);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(255, 204, 0, 0.2);
+        }
+        .zodiac-icon {
+            font-size: 36px; /* 아이콘(이모지) 크기 */
+            margin-bottom: 8px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+        }
+        .zodiac-name {
             color: #fff;
             font-size: 14px;
-            box-sizing: border-box;
-            outline: none;
-            -webkit-appearance: none;
-        }
-        .wish-input:focus {
-            border-color: #ffcc00;
-        }
-        .action-btn {
-            background: #d35400;
-            color: white;
-            border: none;
-            padding: 14px 0;
-            width: 100%;
-            border-radius: 8px;
-            font-size: 16px;
             font-weight: bold;
-            cursor: pointer;
-            transition: background 0.2s;
-            box-shadow: 0 4px 10px rgba(211, 84, 0, 0.4);
-            margin-bottom: 20px;
+            letter-spacing: -0.5px;
         }
-        .action-btn:hover {
-            background: #e67e22;
-        }
-        .action-btn:disabled {
-            background: #555;
-            cursor: not-allowed;
-            box-shadow: none;
-        }
-        /* 오행 부적 카드 스타일 */
-        .talisman-card {
-            background: linear-gradient(135deg, #2b1d0c, #141414);
-            border: 2px solid #ffcc00;
-            border-radius: 8px;
-            padding: 20px;
+        .result-box {
+            background: #252525;
+            border-left: 4px solid #ffcc00;
+            padding: 18px;
+            border-radius: 6px;
             text-align: left;
             margin-top: 20px;
-            box-shadow: 0 0 15px rgba(255, 204, 0, 0.2);
-            display: none;
+            min-height: 130px;
+            line-height: 1.6;
+            font-size: 14px;
         }
-        .talisman-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px dashed #444;
-            padding-bottom: 10px;
-            margin-bottom: 12px;
-        }
-        .talisman-element {
-            font-size: 15px;
+        .result-title {
             font-weight: bold;
             color: #ffcc00;
-        }
-        .talisman-badge {
-            font-size: 12px;
-            background: #333;
-            color: #aaa;
-            padding: 3px 8px;
-            border-radius: 4px;
-        }
-        .result-text {
-            font-size: 14px;
-            line-height: 1.6;
-            color: #ddd;
+            margin-bottom: 10px;
+            font-size: 15px;
         }
         .cta-btn {
             display: block;
@@ -154,121 +114,122 @@
 <body>
 
 <div class="container">
-    <h1>오행전설 : 디지털 산신각</h1>
-    <div class="subtitle">황토고원 절벽 틈새, 정성스레 향을 피우는 공간</div>
+    <h1>오늘의 띠별 운세</h1>
+    <div class="subtitle">자신의 띠 상징을 터치하여 오늘의 일진별 운세를 확인하세요</div>
 
-    <!-- 제단 영역 -->
-    <div class="altar-box" id="altar-container">
-        <video id="altar-video" muted playsinline>
-            <source src="altar.mp4" type="video/mp4">
-            동영상을 지원하지 않는 브라우저입니다.
-        </video>
+    <div class="date-box" id="today-info">오늘의 일진 계산 중...</div>
+    
+    <!-- 12지신 코드 버튼 그리드 (3열) -->
+    <div class="grid" id="zodiac-grid"></div>
+
+    <!-- 결과 출력 영역 -->
+    <div class="result-box">
+        <div class="result-title">✨ 오늘의 운세 결과</div>
+        <div id="result-text" style="color: #ccc;">원하시는 띠 상징을 터치해 주세요.</div>
     </div>
 
-    <!-- 소원 입력 칸 -->
-    <div class="wish-input-box" id="input-container">
-        <label for="user-wish">🔥 제단에 아뢸 간절한 소원을 적어주세요 (선택)</label>
-        <input type="text" id="user-wish" class="wish-input" placeholder="예: 올해는 모든 일에 막힘이 없게 해주소서">
-    </div>
-
-    <!-- 향 피우기 액션 버튼 -->
-    <button class="action-btn" id="incense-btn" onclick="burnIncense()">산신 제단에 향 피우기 올리기</button>
-
-    <!-- 오행 부적 카드 결과 영역 -->
-    <div class="talisman-card" id="talisman-card">
-        <div class="talisman-header">
-            <span class="talisman-element" id="talisman-title">✨ 오늘의 오행 부적</span>
-            <span class="talisman-badge" id="talisman-subtitle">산신의 공수</span>
-        </div>
-        <div class="result-text" id="result-text">
-            제단 앞에 정좌하고 향을 피워 올리면 산신의 깊은 말씀이 강림합니다.
-        </div>
-    </div>
-
-    <!-- 작가님 유튜브 채널 연결 버튼 -->
-    <a href="https://youtube.com/channel/UC19D_0wmj0BeSgRG3vdMsoQ?si=1UrtgWGpSbSWyVum" target="_blank" class="cta-btn">이 기운을 품고 전설 속으로 가기 (YouTube)</a>
+    <!-- 메인 로비로 돌아가기 버튼 -->
+    <a href="index.html" class="cta-btn">디지털 산신각 로비로 돌아가기</a>
 </div>
 
 <script>
-    const 오행종류 = [
-        { name: "🔥 화(火)의 불꽃 부적", tag: "열정과 결단" },
-        { name: "⚔️ 금(金)의 쇳소리 부적", tag: "단호한 끊어냄" },
-        { name: "🌲 목(木)의 생명력 부적", tag: "성장과 비상" },
-        { name: "🌊 수(水)의 깊은 물 부적", tag: "지혜와 내실" },
-        { name: "⛰️ 토(土)의 황토고원 부적", tag: "중심과 묵직한 기운" }
+    const 천간 = ["갑", "을", "병", "정", "무", "기", "경", "신", "임", "계"];
+    const 지지 = ["자", "축", "인", "묘", "진", "사", "오", "미", "신", "유", "술", "해"];
+
+    // 이미지 없이 코드(이모지+이름)로 버튼 구성
+    const 띠목록 = [
+        { name: "쥐띠", icon: "🐭" },
+        { name: "소띠", icon: "🐂" },
+        { name: "호랑이띠", icon: "🐅" },
+        { name: "토끼띠", icon: "🐇" },
+        { name: "용띠", icon: "🐉" },
+        { name: "뱀띠", icon: "🐍" },
+        { name: "말띠", icon: "🐎" },
+        { name: "양띠", icon: "🐑" },
+        { name: "원숭이띠", icon: "🐒" },
+        { name: "닭띠", icon: "🐓" },
+        { name: "개띠", icon: "🐕" },
+        { name: "돼지띠", icon: "🐖" }
     ];
 
-    const 덕담도입부 = [
-        "깊은 산속 자욱한 안개를 뚫고 마침내 이곳에 닿았구나.",
-        "탁한 기운을 깊이 털어내고 정갈한 마음으로 제단에 섰으니,",
-        "사방이 꽉 막힌 황토고원의 매서운 칼바람 속에서도,",
-        "네가 품은 그릇의 깊이가 비로소 빛을 발할 때가 되었느니라.",
-        "칠흑 같은 밤을 건너와 백색 영물의 울음소리를 듣고 찾아왔으니,",
-        "흐트러진 호흡을 가다듬고 오행의 기운을 온전히 받아들일 지어다."
+    const 총운풀 = [
+        "생각지도 못한 곳에서 소소한 행운이나 반가운 소식이 들려오는 하루입니다.",
+        "주위 사람들과의 소통에서 오해가 풀리고 뜻밖의 도움을 받을 수 있는 시기입니다.",
+        "지나친 욕심을 내기보다는 현재 하고 있는 일의 기본에 집중하는 것이 유리합니다.",
+        "오랫동안 고민하던 문제의 실마리가 풀리며 마음이 한결 가벼워집니다.",
+        "작은 노력으로도 주변의 인정과 칭찬을 받을 수 있는 기분 좋은 흐름입니다.",
+        "예상치 못한 지출이 생길 수 있으니 지갑을 열기 전 한 번 더 살펴보는 지혜가 필요합니다."
     ];
 
-    const 덕담본문 = [
-        "지나간 낡은 집착과 미련은 과감하게 끊어내고 완전히 새로운 판을 짜도록 하라.",
-        "조급하게 마음을 먹지 말고 깊은 우물물처럼 속을 차분히 채우며 때를 기다려라.",
-        "남들이 가지 않는 험준한 황무지일지라도 네가 디디는 그 발걸음이 곧 길이 되리라.",
-        "흐트러진 집중을 단단히 바로잡고 네 안의 날카로운 결단과 직관을 믿어라.",
-        "주변의 헛된 소음에 귀를 닫고 네가 걸어가는 서사의 중심을 굳건히 지켜라."
+    const 조언풀 = [
+        "중요한 결정을 내려야 한다면 직감보다는 객관적인 사실을 먼저 따져보세요.",
+        "가까운 지인이나 동료와 진솔한 대화를 나누면 큰 위안과 명확한 해답을 얻게 됩니다.",
+        "무리한 계획보다는 오늘 하루 실천할 수 있는 소소한 목표에 집중해 보세요.",
+        "잠시 여유를 갖고 휴식을 취하면 재충전과 함께 새로운 아이디어가 떠오릅니다.",
+        "주변의 말에 너무 흔들리지 말고 본인의 페이스를 묵묵히 유지하는 것이 좋습니다."
     ];
 
-    const 덕담결말 = [
-        "머지않아 구름이 걷히고 거대한 태양이 네 앞길을 찬란하게 비출 것이다.",
-        "호랑이의 맹렬한 기운이 네 등 뒤를 든든히 지킬 터이니 거침없이 나아가라.",
-        "오늘 흘린 진지한 노력이 마침내 네가 그려온 전설의 서사를 완성할 페달이 되리라.",
-        "산신의 가호가 언제나 너와 함께할지니, 어떤 시련이 와도 결코 흔들리지 말라.",
-        "막혀 있던 운의 흐름이 순풍을 만난 듯 거침없이 트이며 비상하기 시작하리라."
+    const 행운포인트풀 = [
+        "🍀 행운의 컬러: 골드 및 따뜻한 브라운 계열",
+        "⏰ 행운의 시간: 오후 2시 ~ 오후 5시",
+        "🧭 행운의 방향: 동쪽이나 남쪽",
+        "💡 오늘의 팁: 가벼운 산책이나 스트레칭으로 기분 전환을 해보세요.",
+        "🎁 행운의 아이템: 따뜻한 차 한 잔 또는 메탈 액세서리"
     ];
 
-    function burnIncense() {
-        const btn = document.getElementById('incense-btn');
-        const wishInput = document.getElementById('user-wish');
-        const talismanCard = document.getElementById('talisman-card');
-        const resultText = document.getElementById('result-text');
-        const talismanTitle = document.getElementById('talisman-title');
-        const talismanSubtitle = document.getElementById('talisman-subtitle');
-        const video = document.getElementById('altar-video');
+    function getTodayGanji() {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = now.getMonth() + 1;
+        const day = now.getDate();
+
+        const startEpoch = new Date(2026, 0, 1).getTime();
+        const currentEpoch = new Date(year, month - 1, day).getTime();
+        const diffDays = Math.floor((currentEpoch - startEpoch) / (1000 * 60 * 60 * 24));
         
-        let userWish = wishInput.value.trim();
+        const ganIndex = (diffDays + 2) % 10;
+        const jiIndex = (diffDays + 4) % 12;
         
-        btn.disabled = true;
-        wishInput.disabled = true;
-        btn.innerText = "향이 타오르며 산신의 기운이 모이는 중...";
+        const 일진 = 천간[ganIndex >= 0 ? ganIndex : 0] + 지지[jiIndex >= 0 ? jiIndex : 0];
+        
+        document.getElementById('today-info').innerText = `📅 ${year}년 ${month}월 ${day}일 (오늘의 일진: ${일진}의 날)`;
+        return { 일진, year, month, day };
+    }
 
-        // 제단 비디오 재생
-        video.currentTime = 0;
-        video.play();
+    // 그리드에 코드 기반 버튼 생성
+    const grid = document.getElementById('zodiac-grid');
+    띠목록.forEach((item, index) => {
+        const btn = document.createElement('button');
+        btn.className = 'zodiac-btn';
+        // 이미지 대신 이모지와 텍스트로 버튼 구성
+        btn.innerHTML = `
+            <div class="zodiac-icon">${item.icon}</div>
+            <span class="zodiac-name">${item.name}</span>
+        `;
+        btn.onclick = () => showFortune(item.name, index);
+        grid.appendChild(btn);
+    });
 
-        // 2초 동안 긴장감을 주는 로딩 연출 후 부적 카드 등장
-        setTimeout(() => {
-            const now = new Date();
-            const seed = now.getTime() + Math.floor(Math.random() * 10000);
-            
-            const elementIndex = seed % 오행종류.length;
-            const r1 = seed % 덕담도입부.length;
-            const r2 = Math.floor(seed / 7) % 덕담본문.length;
-            const r3 = Math.floor(seed / 13) % 덕담결말.length;
+    function showFortune(ti, index) {
+        const info = getTodayGanji();
+        const seed = info.day * 13 + info.month * 7 + index * 17;
+        const r1 = seed % 총운풀.length;
+        const r2 = (seed * 3) % 조언풀.length;
+        const r3 = (seed * 7) % 행운포인트풀.length;
+        const r4 = (seed * 11) % 행운포인트풀.length;
 
-            const selectedElement = 오행종류[elementIndex];
-            
-            let wishHtml = "";
-            if (userWish !== "") {
-                wishHtml = `<span style="color:#ffcc00; background:#332200; padding:4px 8px; border-radius:4px; display:inline-block; margin-bottom:10px;">🙏 아올린 소원: "${userWish}"</span><br><br>`;
-            }
+        const 운세HTML = `
+            <span style="color:#ffcc00; font-weight:bold; font-size:15px;">🌟 [${ti}] 오늘의 운세 (${info.일진}의 날)</span><br><br>
+            📌 <b>총운 및 흐름:</b><br>${총운풀[r1]}<br><br>
+            💡 <b>맞춤 조언:</b><br>${조언풀[r2]}<br><br>
+            ✨ <b>행운 포인트:</b><br>${행운포인트풀[r3]}<br>${행운포인트풀[r4] !== 행운포인트풀[r3] ? 행운포인트풀[r4] : '💡 긍정적인 마음가짐이 최고의 행운입니다.'}
+        `;
 
-            const 조합된덕담 = `${덕담도입부[r1]}<br><br>${덕담본문[r2]}<br><br>${덕담결말[r3]}`;
+        document.getElementById('result-text').innerHTML = 운세HTML;
+    }
 
-            talismanTitle.innerText = selectedElement.name;
-            talismanSubtitle.innerText = selectedElement.tag;
-            resultText.innerHTML = wishHtml + 조합된덕담;
-
-            talismanCard.style.display = "block";
-            
-            btn.innerText = "참배 완료 (다시 하려면 새로고침)";
-        }, 2000);
+    window.onload = function() {
+        getTodayGanji();
     }
 </script>
 

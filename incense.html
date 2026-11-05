@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>오행전설 - 디지털 산신각 부적 참배</title>
+    <title>오행전설 - 디지털 산신각 제단</title>
     <style>
         body {
             background-color: #0d0d0d;
@@ -35,7 +35,7 @@
         .altar-box {
             position: relative;
             width: 100%;
-            height: 240px;
+            height: 220px;
             background: linear-gradient(to bottom, #1c1815, #0a0807);
             border: 1px solid #444;
             border-radius: 8px;
@@ -48,11 +48,37 @@
             object-fit: cover;
             display: block;
         }
+        .wish-box {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .wish-box label {
+            display: block;
+            font-size: 13px;
+            color: #ffcc00;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        .wish-input {
+            width: 100%;
+            padding: 14px;
+            background: #111;
+            border: 1px solid #555;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 14px;
+            box-sizing: border-box;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .wish-input:focus {
+            border-color: #ffcc00;
+        }
         .action-btn {
             background: #d35400;
             color: white;
             border: none;
-            padding: 14px 0;
+            padding: 16px 0;
             width: 100%;
             border-radius: 8px;
             font-size: 16px;
@@ -70,7 +96,6 @@
             cursor: not-allowed;
             box-shadow: none;
         }
-        /* 오행 부적 카드 스타일 */
         .talisman-card {
             background: linear-gradient(135deg, #2b1d0c, #141414);
             border: 2px solid #ffcc00;
@@ -125,108 +150,137 @@
 <body>
 
 <div class="container">
-    <h1>오행전설 : 디지털 산신각</h1>
-    <div class="subtitle">황토고원 절벽 틈새, 정성스레 향을 피우는 공간</div>
+    <h1>오행전설 : 제단 향 피우기</h1>
+    <div class="subtitle">황토고원 절벽 틈새, 간절한 소원을 담아 향을 올리는 공간</div>
 
-    <!-- 제단 영역 -->
-    <div class="altar-box" id="altar-container">
+    <!-- 제단 영상 영역 -->
+    <div class="altar-box">
         <video id="altar-video" muted playsinline>
             <source src="altar.mp4" type="video/mp4">
             동영상을 지원하지 않는 브라우저입니다.
         </video>
     </div>
 
-    <!-- 향 피우기 액션 버튼 -->
-    <button class="action-btn" id="incense-btn" onclick="burnIncense()">산신 제단에 향 피우기 올리기</button>
+    <!-- 소원 입력 폼 -->
+    <div class="wish-box">
+        <label for="wish-input">🕯️ 산신께 고할 간절한 소원을 적어주세요</label>
+        <input type="text" id="wish-input" class="wish-input" placeholder="예: 진행하는 일이 순조롭게 풀리게 해주소서">
+    </div>
 
-    <!-- 오행 부적 카드 결과 영역 -->
+    <!-- 향 피우기 액션 버튼 -->
+    <button class="action-btn" id="incense-btn" type="button">정성을 담아 향 피우고 소원 빌기</button>
+
+    <!-- 소원 성취 부적 카드 결과 영역 -->
     <div class="talisman-card" id="talisman-card">
         <div class="talisman-header">
-            <span class="talisman-element" id="talisman-title">✨ 오늘의 오행 부적</span>
+            <span class="talisman-element" id="talisman-title">✨ 소원 성취 오행 부적</span>
             <span class="talisman-badge" id="talisman-subtitle">산신의 공수</span>
         </div>
         <div class="result-text" id="result-text">
-            제단 앞에 정좌하고 향을 피워 올리면 산신의 깊은 말씀이 강림합니다.
+            제단에 소원을 적고 향을 피워 올리면 산신의 깊은 말씀이 강림합니다.
         </div>
     </div>
 
-    <!-- 작가님 유튜브 채널 연결 버튼 -->
-    <a href="https://youtube.com/channel/UC19D_0wmj0BeSgRG3vdMsoQ?si=1UrtgWGpSbSWyVum" target="_blank" class="cta-btn">이 기운을 품고 전설 속으로 가기 (YouTube)</a>
+    <!-- 로비로 돌아가기 버튼 -->
+    <a href="index.html" class="cta-btn">디지털 산신각 로비로 돌아가기</a>
 </div>
 
 <script>
-    const 오행종류 = [
-        { name: "🔥 화(火)의 불꽃 부적", tag: "열정과 결단" },
-        { name: "⚔️ 금(金)의 쇳소리 부적", tag: "단호한 끊어냄" },
-        { name: "🌲 목(木)의 생명력 부적", tag: "성장과 비상" },
-        { name: "🌊 수(水)의 깊은 물 부적", tag: "지혜와 내실" },
-        { name: "⛰️ 토(土)의 황토고원 부적", tag: "중심과 묵직한 기운" }
+    const 오행부적종류 = [
+        { name: "🔥 화(火)의 불꽃 성취 부적", tag: "열정과 돌파" },
+        { name: "⚔️ 금(金)의 쇳소리 결단 부적", tag: "단호한 성취" },
+        { name: "🌲 목(木)의 생명력 비상 부적", tag: "성장과 발전" },
+        { name: "🌊 수(水)의 심연 지혜 부적", tag: "유연한 해결" },
+        { name: "⛰️ 토(土)의 황토고원 안정 부적", tag: "묵직한 기반" }
     ];
 
     const 덕담도입부 = [
-        "깊은 산속 자욱한 안개를 뚫고 마침내 이곳에 닿았구나.",
-        "탁한 기운을 깊이 털어내고 정갈한 마음으로 제단에 섰으니,",
-        "사방이 꽉 막힌 황토고원의 매서운 칼바람 속에서도,",
-        "네가 품은 그릇의 깊이가 비로소 빛을 발할 때가 되었느니라.",
-        "칠흑 같은 밤을 건너와 백색 영물의 울음소리를 듣고 찾아왔으니,",
-        "흐트러진 호흡을 가다듬고 오행의 기운을 온전히 받아들일 지어다."
+        "네가 간절히 적어 올린 그 마음의 결이 붉은 향연을 타고 산신의 제단에 깊이 닿았도다.",
+        "황토고원의 매서운 칼바람 속에서도 꺾이지 않고 피어올린 그 소원의 무게가 가볍지 않구나.",
+        "칠흑 같은 어둠을 뚫고 백색 영물이 울부짖듯, 네가 품은 간절함이 마침내 하늘의 문을 두드렸도다.",
+        "보이지 않는 장막에 갇혀 답답하던 찰나, 네가 올린 정성이 오행의 맥을 시원하게 관통하는구나.",
+        "지나간 낡은 미련을 모두 태워버리고 새롭게 품은 그 소원이 비로소 거대한 서사의 시작을 알린다.",
+        "사방을 감싸던 탁한 기운이 네가 피운 향의 정기로 인해 순식간에 맑고 찬란하게 정화되는도다.",
+        "스스로의 한계를 깨부수고 더 거대한 세계관을 향해 내딛는 그 소원의 발걸음을 산신이 가상히 여긴다.",
+        "깊은 우물처럼 속을 가득 채우며 묵묵히 기다려온 네 진심이 드디어 산신령의 눈길을 사로잡았도다."
     ];
 
     const 덕담본문 = [
-        "지나간 낡은 집착과 미련은 과감하게 끊어내고 완전히 새로운 판을 짜도록 하라.",
-        "조급하게 마음을 먹지 말고 깊은 우물물처럼 속을 차분히 채우며 때를 기다려라.",
-        "남들이 가지 않는 험준한 황무지일지라도 네가 디디는 그 발걸음이 곧 길이 되리라.",
-        "흐트러진 집중을 단단히 바로잡고 네 안의 날카로운 결단과 직관을 믿어라.",
-        "주변의 헛된 소음에 귀를 닫고 네가 걸어가는 서사의 중심을 굳건히 지켜라."
+        "네가 염원한 그 목표를 이루기 위해 지금 가장 방해가 되는 불필요한 집착과 걱정은 도끼로 내리치듯 완전히 끊어내라.",
+        "조급하게 판을 흔들려 하지 말고 거대한 대세의 흐름 속에서 묵직한 내실을 다지며 다음 비상을 위한 칼을 조용히 갈아두어라.",
+        "남들이 가지 않는 험준한 황무지라 할지라도 네가 디딘 그 발걸음이 곧 새로운 길이 되니 주변 시선에 절대 흔들리지 마라.",
+        "막히는 순간이 찾아올 때마다 좁은 시야를 버리고 더 거대한 스케일로 판을 넓혀 상황을 객관적으로 조망해 보도록 하라.",
+        "혼자서 모든 것을 짊어지려 애쓰지 말고 주변의 지혜로운 조언과 날카로운 직관을 적극적으로 활용하여 승기를 거머쥐어라.",
+        "뜻밖의 변로나 방해 요소가 나타나더라도 당황하지 말고 유연하게 몸을 낮추어 오히려 역이용할 기회로 삼아라.",
+        "네가 세운 기준과 원칙을 단단히 붙잡고 타협하지 않는 곧은 태도를 유지할 때 비로소 진정한 성취의 문이 열릴 것이다."
     ];
 
     const 덕담결말 = [
-        "머지않아 구름이 걷히고 거대한 태양이 네 앞길을 찬란하게 비출 것이다.",
-        "호랑이의 맹렬한 기운이 네 등 뒤를 든든히 지킬 터이니 거침없이 나아가라.",
-        "오늘 흘린 진지한 노력이 마침내 네가 그려온 전설의 서사를 완성할 페달이 되리라.",
-        "산신의 가호가 언제나 너와 함께할지니, 어떤 시련이 와도 결코 흔들리지 말라.",
-        "막혀 있던 운의 흐름이 순풍을 만난 듯 거침없이 트이며 비상하기 시작하리라."
+        "머지않아 구름이 걷히고 태을의 찬란한 기운이 네 앞길을 거침없이 비추며 소원이 찬란하게 성취되리라.",
+        "오늘 네가 올린 정성과 향의 기도가 마침내 네 안의 새로운 전설을 완벽하게 완성하는 거대한 불꽃이 되리라.",
+        "막혀 있던 운의 맥이 순풍을 만난 듯 시원하게 뚫려 네가 바라는 모든 방향으로 거침없이 뻗어나갈 것이다.",
+        "산신의 든든한 가호와 영물의 기개가 전신을 감싸 안아 오늘 이후 너를 그 어떤 시련에도 무적으로 만들어 주리라.",
+        "시간이 흐를수록 더 깊은 빛을 발하며 네가 소원한 목표를 향해 성큼성큼 나아가는 영광의 순간이 찾아오리라."
     ];
 
-    function burnIncense() {
+    document.addEventListener('DOMContentLoaded', function() {
         const btn = document.getElementById('incense-btn');
+        const wishInput = document.getElementById('wish-input');
         const talismanCard = document.getElementById('talisman-card');
         const resultText = document.getElementById('result-text');
         const talismanTitle = document.getElementById('talisman-title');
         const talismanSubtitle = document.getElementById('talisman-subtitle');
         const video = document.getElementById('altar-video');
-        
-        btn.disabled = true;
-        btn.innerText = "향이 타오르며 산신의 기운이 모이는 중...";
 
-        // 제단 비디오 재생
-        video.currentTime = 0;
-        video.play();
+        if (btn) {
+            btn.addEventListener('click', function() {
+                const wishText = wishInput.value.trim();
+                
+                if (!wishText) {
+                    alert("산신께 고할 소원을 입력해 주세요!");
+                    wishInput.focus();
+                    return;
+                }
 
-        // 2초 동안 몰입감을 주는 로딩 연출 후 부적 카드 팡! 하고 등장
-        setTimeout(() => {
-            const now = new Date();
-            const seed = now.getTime() + Math.floor(Math.random() * 10000);
-            
-            const elementIndex = seed % 오행종류.length;
-            const r1 = seed % 덕담도입부.length;
-            const r2 = Math.floor(seed / 7) % 덕담본문.length;
-            const r3 = Math.floor(seed / 13) % 덕담결말.length;
+                btn.disabled = true;
+                btn.innerText = "향이 타오르며 소원이 산신께 전달되는 중...";
 
-            const selectedElement = 오행종류[elementIndex];
-            const 조합된덕담 = `${덕담도입부[r1]}<br><br>${덕담본문[r2]}<br><br>${덕담결말[r3]}`;
+                // 비디오 재생 시도 (파일이 없거나 에러가 나도 결과 출력에 지장 없도록 안전 처리)
+                if (video) {
+                    try {
+                        video.currentTime = 0;
+                        video.play().catch(() => {});
+                    } catch (e) {}
+                }
 
-            // 부적 카드 내용 주입
-            talismanTitle.innerText = selectedElement.name;
-            talismanSubtitle.innerText = selectedElement.tag;
-            resultText.innerHTML = 조합된덕담;
+                // 2초 뒤 결과 카드 강제 출력 (에러 차단)
+                setTimeout(() => {
+                    const seed = Date.now() + wishText.length + Math.floor(Math.random() * 10000);
+                    
+                    const elementIndex = seed % 오행부적종류.length;
+                    const r1 = seed % 덕담도입부.length;
+                    const r2 = Math.floor(seed / 7) % 덕담본문.length;
+                    const r3 = Math.floor(seed / 13) % 덕담결말.length;
 
-            // 부적 카드 부드럽게 노출
-            talismanCard.style.display = "block";
-            
-            btn.innerText = "참배 완료 (다시 하려면 새로고침)";
-        }, 2000);
-    }
+                    const selectedElement = 오행부적종류[elementIndex];
+                    
+                    const 조합된덕담 = `
+                        <span style="color:#ffcc00;"><b>[고한 소원]</b>: "${wishText}"</span><br><br>
+                        ${덕담도입부[r1]}<br><br>
+                        ${덕담본문[r2]}<br><br>
+                        ${덕담결말[r3]}
+                    `;
+
+                    talismanTitle.innerText = selectedElement.name;
+                    talismanSubtitle.innerText = selectedElement.tag;
+                    resultText.innerHTML = 조합된덕담;
+
+                    talismanCard.style.display = "block";
+                    btn.innerText = "참배 완료 (다시 하려면 새로고침)";
+                }, 2000);
+            });
+        }
+    });
 </script>
 
 </body>
