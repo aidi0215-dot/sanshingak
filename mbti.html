@@ -56,7 +56,7 @@
         button:hover { background: #ffd700; }
         .result-box {
             margin-top: 25px;
-            padding: 20px;
+            padding: 25px;
             background: #222;
             border-radius: 10px;
             display: none;
@@ -82,15 +82,24 @@
             font-size: 15px;
             margin-bottom: 12px;
         }
-        .result-title { color: #ffd700; font-size: 22px; font-weight: bold; margin-bottom: 10px; }
-        .result-desc { font-size: 15px; line-height: 1.7; color: #ddd; white-space: pre-line; }
+        .result-title { color: #ffd700; font-size: 22px; font-weight: bold; margin-bottom: 15px; }
+        .result-desc {
+            font-size: 15px;
+            line-height: 1.8;
+            color: #e0e0e0;
+            white-space: pre-line;
+            background: #181818;
+            padding: 18px;
+            border-radius: 8px;
+            border-left: 4px solid #b8860b;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
     <h2>🔥 디지털 산신각 : 나의 운명의 환수 찾기</h2>
-    <p>양력 생년월일과 시간을 입력하고 당신의 본질적인 환수 별칭과 상세 성격을 확인하세요.</p>
+    <p>양력 생년월일과 시간을 입력하고 당신의 본질적인 수호환수와 상세 성격을 확인하세요.</p>
     
     <div class="input-group">
         <input type="number" id="birthYear" placeholder="년 (예: 1980)" min="1900" max="2026">
@@ -112,103 +121,6 @@
 </div>
 
 <script>
-    // 🌟 60갑자 순서 누락 및 오탈자 없이 완벽하게 정렬된 마스터 데이터베이스
-    const ganjiDatabase = [
-        { name: "갑자일주", alias: "푸른 물가에 선 큰 나무", ohaeng: "목" },
-        { name: "을축일주", alias: "화분에 담긴 끈질긴 덩굴", ohaeng: "목" },
-        { name: "병인일주", alias: "거칠게 포효하는 붉은 호랑이", ohaeng: "화" },
-        { name: "정묘일주", alias: "어둠을 밝히는 은은한 달빛 횃불", ohaeng: "화" },
-        { name: "무진일주", alias: "안개를 품은 거대한 황금 산", ohaeng: "토" },
-        { name: "기사일주", alias: "뜨거운 태 아래 잘 가꿔진 정원", ohaeng: "토" },
-        { name: "경오일주", alias: "전장을 달리는 백은빛 맹수", ohaeng: "금" },
-        { name: "신미일주", alias: "보석함 속에 고이 담긴 진주", ohaeng: "금" },
-        { name: "임신일주", alias: "깊은 밤 폭풍우가 치는 바다", ohaeng: "수" },
-        { name: "계유일주", alias: "가을 달빛 아래 반짝이는 이슬", ohaeng: "수" },
-
-        { name: "갑술일주", alias: "가을 언덕에 홀로 선 푸른 거목", ohaeng: "목" },
-        { name: "을해일주", alias: "진흙 속에 고결하게 핀 연꽃", ohaeng: "목" },
-        { name: "병자일주", alias: "호수 위에 찬란하게 떠오른 태양", ohaeng: "화" },
-        { name: "정축일주", alias: "화로 속에서 타오르는 붉은 불꽃", ohaeng: "화" },
-        { name: "무인일주", alias: "범 내려오는 깊고 푸른 산봉우리", ohaeng: "토" },
-        { name: "기묘일주", alias: "봄바람에 흔들리는 넓은 들판의 풀", ohaeng: "토" },
-        { name: "경진일주", alias: "비구름을 뚫고 나오는 백은빛 용", ohaeng: "금" },
-        { name: "신사일주", alias: "용광로 속에서 단련된 명검", ohaeng: "금" },
-        { name: "임오일주", alias: "노을이 물든 끝없는 바다의 지평선", ohaeng: "수" },
-        { name: "계미일주", alias: "모래사장을 촉촉히 적시는 안개", ohaeng: "수" },
-
-        { name: "갑신일주", alias: "바람을 가르며 자라는 푸른 대나무", ohaeng: "목" },
-        { name: "을유일주", alias: "바위틈에 뿌리를 내린 강인한 난초", ohaeng: "목" },
-        { name: "병술일주", alias: "화산 속에 숨겨진 뜨거운 용암", ohaeng: "화" },
-        { name: "정해일주", alias: "깊은 바닷속을 비추는 등대", ohaeng: "화" },
-        { name: "무자일주", alias: "넓은 대지를 품은 호숫가", ohaeng: "토" },
-        { name: "기축일주", alias: "겨울을 견뎌내는 단단한 대지", ohaeng: "토" },
-        { name: "경인일주", alias: "서릿발 내린 가을날의 맹수", ohaeng: "금" },
-        { name: "신묘일주", alias: "정교하게 세공된 백은빛 보석", ohaeng: "금" },
-        { name: "임진일주", alias: "파도를 일으키는 거대한 흑룡", ohaeng: "수" },
-        { name: "계사일주", alias: "이슬을 머금고 피어나는 연꽃", ohaeng: "수" },
-
-        { name: "갑오일주", alias: "태양을 향해 뻗어가는 푸른 나무", ohaeng: "목" },
-        { name: "을미일주", alias: "여름날 무성하게 우거진 덩굴", ohaeng: "목" },
-        { name: "병신일주", alias: "가을 하늘에 타오르는 노을빛", ohaeng: "화" },
-        { name: "정유일주", alias: "보석처럼 반짝이는 작은 촛불", ohaeng: "화" },
-        { name: "무술일주", alias: "황금빛 들판을 지키는 듬직한 수호견", ohaeng: "토" },
-        { name: "기해일주", alias: "농작물을 기르는 비옥한 논밭", ohaeng: "토" },
-        { name: "경자일주", alias: "깊은 밤 달빛 아래 빛나는 백은빛 물결", ohaeng: "금" },
-        { name: "신축일주", alias: "겨울 찬바람 속의 단단한 백은빛 보석", ohaeng: "금" },
-        { name: "임인일주", alias: "푸른 숲을 거니는 거대한 임수 호랑이", ohaeng: "수" },
-        { name: "계묘일주", alias: "달빛 아래 촉촉히 젖어든 푸른 대나무", ohaeng: "수" },
-
-        { name: "갑진일주", alias: "하늘로 승천하려는 푸른 용", ohaeng: "목" },
-        { name: "을사일주", alias: "꽃밭에서 춤추는 화려한 나비", ohaeng: "목" },
-        { name: "병오일주", alias: "한낮에 가장 뜨겁게 빛나는 태양", ohaeng: "화" },
-        { name: "정미일주", alias: "따스하게 세상을 비추는 모닥불", ohaeng: "화" },
-        { name: "무신일주", alias: "가을 결실을 맺는 단단한 바위", ohaeng: "토" },
-        { name: "기유일주", alias: "가을 정원에 핀 고결한 국화", ohaeng: "토" },
-        { name: "경술일주", alias: "철갑을 두른 백은빛 전사", ohaeng: "금" },
-        { name: "신해일주", alias: "깊은 밤 달빛을 머금은 검", ohaeng: "금" },
-        { name: "임자일주", alias: "겨울밤 얼어붙은 거대한 바다", ohaeng: "수" },
-        { name: "계해일주", alias: "모든 생명을 품고 흐르는 생명의 물", ohaeng: "수" },
-
-        { name: "갑인일주", alias: "숲을 지배하는 푸른 호랑이", ohaeng: "목" },
-        { name: "을묘일주", alias: "끝없이 펼쳐진 푸른 초원", ohaeng: "목" },
-        { name: "병진일주", alias: "하늘을 태울 듯이 솟구치는 태양", ohaeng: "화" },
-        { name: "정사일주", alias: "가장 뜨겁게 타오르는 붉은 불꽃", ohaeng: "화" },
-        { name: "무오일주", alias: "태양이 내리쬐는 뜨거운 모래언덕", ohaeng: "토" },
-        { name: "기미일주", alias: "황금빛 들판의 풍요로운 대지", ohaeng: "토" },
-        { name: "경신일주", alias: "서릿발 내린 서쪽 전장의 무사", ohaeng: "금" },
-        { name: "신유일주", alias: "조명 아래 빛나는 순은빛 보석", ohaeng: "금" },
-        { name: "임술일주", alias: "댐에 갇혀 거대한 힘을 품은 물", ohaeng: "수" },
-        { name: "계해일주", alias: "넓은 바다로 흘러드는 밤의 강물", ohaeng: "수" }
-    ];
-
-    const ohaengDatabase = {
-        '목': {
-            name: "청룡의 기운 (성장과 창의의 결단)",
-            desc: "푸른 비늘의 동방 수호신, 청룡의 생명력을 품고 있습니다.\n\n[상세 성격 분석]\n• 곧게 뻗어 나가는 나무처럼 진취적이고 새로운 아이디어가 넘칩니다.\n• 겉으로는 부드럽고 유연해 보이지만, 내면에는 지지 않으려는 강한 자존심과 책임감이 자리 잡고 있습니다.\n• 타협하기보다는 스스로 길을 개척하는 리더십 성향이 강해 주변의 기대를 한 몸에 받습니다.",
-            img: "chungryong.jpg"
-        },
-        '화': {
-            name: "적호의 기운 (불꽃 같은 열정과 통솔력)",
-            desc: "전장을 울리는 붉은 전사 적호의 불꽃 기운을 품고 있습니다.\n\n[상세 성격 분석]\n• 타오르는 불길처럼 뜨겁고 화려하며, 어디서든 주목받는 강렬한 아라를 뿜어냅니다.\n• 일처리가 시원시원하고 솔직담백하여 사람들에게 강렬한 인상을 남깁니다.\n• 다만 성격이 급해 때로는 주변을 태우듯 조급해질 수 있으니, 깊은 심호흡으로 불길을 조절하는 지혜가 필요합니다.",
-            img: "jeokho.jpg"
-        },
-        '토': {
-            name: "아린의 기운 (만물을 품는 묵직한 포용력)",
-            desc: "대지의 중심을 잡는 지팡이를 든 아린의 대지 기운을 품고 있습니다.\n\n[상세 성격 분석]\n• 산처럼 묵직하고 흔들리지 않는 신뢰감을 주는 타입입니다.\n• 주변 사람들의 갈등을 중재하고 편안하게 감싸 안아주는 뛰어난 포용력을 가지고 있습니다.\n• 겉보기엔 우직해 보여도 속으로는 깊게 생각하고 계산하는 치밀한 전략가적 기질도 함께 숨겨져 있습니다.",
-            img: "arin.jpg"
-        },
-        '금': {
-            name: "현의 기운 (단단한 서릿발과 칼 같은 결단력)",
-            desc: "단단한 쇠의 기운을 지닌 무사 '현'의 서늘한 기운을 품고 있습니다.\n\n[상세 성격 분석]\n• 바위처럼 단단하고 서늘하며, 의리와 원칙을 목숨처럼 여기는 무사의 기질을 지닙니다.\n• 공과 사가 매우 뚜렷하고 냉철한 판단력으로 복잡한 상황을 단칼에 정리합니다.\n• 차갑고 무뚝뚝해 보일 수 있으나, 내 사람에게는 모든 것을 내어주는 의리파입니다.",
-            img: "hyun.jpg"
-        },
-        '수': {
-            name: "연화의 기운 (깊은 심연의 지혜와 유연함)",
-            desc: "북쪽의 거대한 심연을 다스리는 연화의 신비로운 물 기운을 품고 있습니다.\n\n[상세 성격 분석]\n• 겉으로는 잔잔해 보이지만 밑바닥을 가늠할 수 없는 깊은 호수처럼 뛰어난 통찰력과 지혜를 가졌습니다.\n• 어떤 환경에서도 물처럼 유연하게 스며들어 위기를 빠져나가는 임기응변의 달인입니다.\n• 속내를 쉽게 드러내지 않아 비밀스럽고 신비로운 매력을 풍기며, 예술적이고 철학적인 감각이 매우 뛰어납니다.",
-            img: "yeonhwa.jpg"
-        }
-    };
-
     function convertHanjaToIlju(ganjiHanja) {
         const map = {
             '甲':'갑', '乙':'을', '丙':'병', '丁':'정', '戊':'무', '己':'기', '庚':'경', '辛':'신', '壬':'임', '癸':'계',
@@ -234,23 +146,94 @@
             const eightChar = lunar.getEightChar();
             
             const dayGanZhiHanja = eightChar.getDay(); 
-            const targetIljuName = convertHanjaToIlju(dayGanZhiHanja);
+            const targetIljuName = convertHanjaToIlju(dayGanZhiHanja) || "알 수 없음";
 
-            const myIljuObj = ganjiDatabase.find(item => item.name === targetIljuName);
+            let resultData = {};
 
-            if (!myIljuObj) {
-                alert('일주 계산 결과를 찾을 수 없습니다.');
-                return;
+            // 🌟 1. 작가님이 지정해주신 핵심 5대 일주
+            if (targetIljuName === "병인일주") {
+                resultData = {
+                    alias: "거칠게 포효하는 붉은 호랑이",
+                    guardian: "적호의 기운",
+                    img: "jeokho.jpg",
+                    desc: "전장을 울리는 붉은 전사 적호의 불꽃 기운을 품고 있습니다.\n\n[🔥 본질적인 성향]\n• 타오르는 불길처럼 뜨겁고 화려하며, 어디서든 주목받는 강렬한 아라를 뿜어냅니다.\n• 일처리가 시원시원하고 솔직담백하여 사람들에게 강렬한 인상을 남깁니다.\n\n[⚔️ 강점과 주의점]\n• 과감한 결단력으로 새로운 기회를 창출하는 데 천재적인 감각이 있습니다.\n• 다만 성격이 급해 때로는 주변을 태우듯 조급해질 수 있으니, 깊은 호흡으로 불길을 조절하는 지혜가 필요합니다."
+                };
+            } else if (targetIljuName === "을해일주") {
+                resultData = {
+                    alias: "진흙 속에 고결하게 핀 연꽃",
+                    guardian: "연화의 기운",
+                    img: "yeonhwa.jpg",
+                    desc: "북쪽의 거대한 심연을 다스리는 연화의 신비로운 물 기운을 품고 있습니다.\n\n[💧 본질적인 성향]\n• 혼탁한 상황 속에서도 본질을 잃지 않는 지혜와 깊은 통찰력을 지녔습니다.\n• 겉으로는 잔잔해 보이지만 밑바닥을 가늠할 수 없는 유연함과 강인함이 숨어 있습니다.\n\n[🌿 강점과 주의점]\n• 예술적 감각과 직관력이 매우 뛰어나며 사람들에게 깊은 울림과 치유를 줍니다.\n• 속내를 쉽게 드러내지 않아 오해를 살 수 있으니 가끔은 마음의 문을 열어보세요."
+                };
+            } else if (targetIljuName === "신축일주") {
+                resultData = {
+                    alias: "겨울 찬바람 속의 단단한 백은빛 보석",
+                    guardian: "현의 기운",
+                    img: "hyun.jpg",
+                    desc: "단단한 쇠의 기운을 지닌 무사 '현'의 서늘한 기운을 품고 있습니다.\n\n[🛡️ 본질적인 성향]\n• 바위처럼 단단하고 서늘하며, 의리와 원칙을 목숨처럼 여기는 무사의 기질을 지닙니다.\n• 공과 사가 매우 뚜렷하고 냉철한 판단력으로 복잡한 상황을 단칼에 정리합니다.\n\n[🗡️ 강점과 주의점]\n• 완벽주의적인 성향과 철저한 자기 관리로 어떤 난관도 돌파해냅니다.\n• 차갑고 무뚝뚝해 보일 수 있으나 내 사람에게는 모든 것을 내어주는 의리파입니다."
+                };
+            } else if (targetIljuName === "정사일주") {
+                resultData = {
+                    alias: "가장 뜨겁게 타오르는 붉은 불꽃",
+                    guardian: "아린의 기운",
+                    img: "arin.jpg",
+                    desc: "대지의 중심을 잡는 지팡이를 든 아린의 대지 기운을 품고 있습니다.\n\n[⛰️ 본질적인 성향]\n• 산처럼 묵직하고 흔들리지 않는 신뢰감을 주는 타입입니다.\n• 주변 사람들의 갈등을 중재하고 편안하게 감싸 안아주는 뛰어난 포용력을 가졌습니다.\n\n[🔮 강점과 주의점]\n• 겉보기엔 우직해 보여도 속으로는 깊게 생각하고 계산하는 치밀한 전략가적 기질이 있습니다.\n• 타인을 너무 품어주다 지칠 수 있으니 가끔은 휴식이 필요합니다."
+                };
+            } else if (targetIljuName === "무진일주") {
+                resultData = {
+                    alias: "안개를 품은 거대한 황금 산",
+                    guardian: "해의 기운",
+                    img: "hae.jpg",
+                    desc: "이마 중앙의 뿔과 백색 종을 울리는 수호환수 해의 기운입니다.\n\n[🔔 본질적인 성향]\n• 부정한 기운을 정화하고 정의를 바로 세우는 강력한 영험함이 있습니다.\n• 거대한 대지의 스케일과 명예를 중시하는 묵직한 카리스마를 품고 있습니다.\n\n[✨ 강점과 주의점]\n• 사람들을 이끄는 리더십이 탁월하며 사회적으로 큰 성취를 이룰 잠재력이 큽니다.\n• 고집이 다소 세질 수 있으니 주변의 조언을 경청하는 유연함이 시너지를 줍니다."
+                };
+            } else {
+                // 🌟 2. 나머지 일주들도 핵심 일주와 동일하게 2단락 구성으로 풍성하게 출력
+                const stem = targetIljuName[0];
+                if ('갑을'.includes(stem)) {
+                    resultData = {
+                        alias: "푸른 숲을 거니는 수호자",
+                        guardian: "청룡의 기운",
+                        img: "chungryong.jpg",
+                        desc: "푸른 비늘의 동방 수호신, 청룡의 생명력을 품고 있습니다.\n\n[🌲 본질적인 성향]\n• 곧게 뻗어 나가는 거목처럼 진취적이고 새로운 판을 짜는 아이디어가 넘칩니다.\n• 겉으로는 부드럽고 유연해 보이지만 내면에는 지지 않으려는 강한 자존심과 책임감이 있습니다.\n\n[🌱 강점과 주의점]\n• 스스로 길을 개척하는 리더십 성향이 강해 주변의 기대를 한 몸에 받습니다.\n• 때로는 조급하게 앞서나갈 수 있으니 주변 동료들과 보조를 맞추는 여유가 필요합니다."
+                    };
+                } else if ('병정'.includes(stem)) {
+                    resultData = {
+                        alias: "남쪽을 수호하는 화려한 불새",
+                        guardian: "주작의 기운",
+                        img: "joozak.jpg",
+                        desc: "남쪽을 지키는 주작의 화려하고 뜨거운 기운입니다.\n\n[🔥 본질적인 성향]\n• 예술적 감각이 뛰어나고 어디서나 사람들의 시선을 사로잡는 매력을 뿜어냅니다.\n• 열정적이고 표현력이 풍부하여 주변 분위기를 단숨에 밝게 만듭니다.\n\n[✨ 강점과 주의점]\n• 타고난 센스와 언변으로 사람들을 매료시키는 강력한 인싸 기질이 있습니다.\n• 감정의 기복이 간혹 찾아올 수 있으니 내면의 평정을 유지하는 것이 좋습니다."
+                    };
+                } else if ('무기'.includes(stem)) {
+                    resultData = {
+                        alias: "중앙을 지키는 신비로운 기운",
+                        guardian: "구진의 기운",
+                        img: "gujin.jpg",
+                        desc: "중앙의 토(土) 기운을 품은 구진의 마력입니다.\n\n[⛰️ 본질적인 성향]\n• 묵직한 신뢰감과 쉽게 흔들리지 않는 뚝심을 동시에 지니고 있습니다.\n• 대인관계에서 갈등을 조율하고 전체적인 중심을 잘 잡아주는 역할을 합니다.\n\n[🛡️ 강점과 주의점]\n• 실속을 차리는 능력이 뛰어나며 차곡차곡 성과를 쌓아올리는 대기만성형입니다.\n• 속마음을 쉽게 드러내지 않아 답답하다는 오해를 살 수 있으니 소통에 신경 쓰세요."
+                    };
+                } else if ('경신'.includes(stem)) {
+                    resultData = {
+                        alias: "서쪽을 수호하는 용맹한 맹수",
+                        guardian: "백호의 기운",
+                        img: "baekho.jpg",
+                        desc: "서쪽의 전장을 수호하는 백호의 맹렬한 기세입니다.\n\n[⚔️ 본질적인 성향]\n• 결단력이 무섭고 의리와 원칙을 인생 최고의 가치로 여깁니다.\n• 목표를 향해 칼 같이 파고드는 집요함과 완벽한 실행력을 자랑합니다.\n\n[⚡ 강점과 주의점]\n• 복잡한 난제를 단숨에 타파하는 냉철하고 카리스마 있는 문제 해결사입니다.\n• 너무 엄격한 잣대로 주변을 대할 수 있으니 유연한 포용력을 곁들여보세요."
+                    };
+                } else {
+                    resultData = {
+                        alias: "북쪽을 다스리는 깊은 심연의 영물",
+                        guardian: "현무의 기운",
+                        img: "hyunmu.jpg",
+                        desc: "북쪽의 거대한 물을 다스리는 현무의 지혜입니다.\n\n[💧 본질적인 성향]\n• 흔들리지 않는 방어력과 밑바닥을 알 수 없는 깊은 통찰력을 가지고 있습니다.\n• 지적이고 차분하게 상황을 분석하며 위기 상황에서 더욱 빛을 발합니다.\n\n[🌙 강점과 주의점]\n• 어떤 환경에서도 물처럼 스며들어 살아남는 임기응변의 달인입니다.\n• 생각이 너무 많아 행동이 늦어질 수 있으니 과감한 직관을 믿어보세요."
+                    };
+                }
             }
 
-            const ohaengData = ohaengDatabase[myIljuObj.ohaeng];
-
+            // 결과 화면에 데이터 주입
             const imgElement = document.getElementById('guardianImg');
-            imgElement.src = ohaengData.img;
+            imgElement.src = resultData.img;
             
-            document.getElementById('iljuBadge').innerText = `✨ 운명의 본질: [ ${myIljuObj.name} — "${myIljuObj.alias}" ]`;
-            document.getElementById('resTitle').innerText = ohaengData.name;
-            document.getElementById('resDesc').innerText = ohaengData.desc;
+            document.getElementById('iljuBadge').innerText = `✨ 운명의 본질: [ ${targetIljuName} — "${resultData.alias}" ]`;
+            document.getElementById('resTitle').innerText = resultData.guardian;
+            document.getElementById('resDesc').innerText = resultData.desc;
             
             document.getElementById('resultBox').style.display = 'block';
         } catch (e) {
