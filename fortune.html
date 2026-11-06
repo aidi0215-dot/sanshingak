@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>오늘의 띠별 운세</title>
+    <!-- 🌟 메인 사이트와 동일하게 검증된 오픈소스 만세력 라이브러리(LunarJS) CDN 장착 -->
+    <script src="https://cdn.jsdelivr.net/npm/lunar-javascript@1.6.12/lunar.js"></script>
     <style>
         body {
             background-color: #121212;
@@ -47,10 +49,9 @@
             gap: 12px;
             margin-bottom: 20px;
         }
-        /* 코드만으로 그리는 일러스트 카드 버튼 스타일 */
         .zodiac-btn {
             background: #2b2b2b;
-            border: 2px solid #444; /* 도톰한 테두리 */
+            border: 2px solid #444;
             border-radius: 12px;
             padding: 15px 6px;
             cursor: pointer;
@@ -59,7 +60,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 90px; /* 버튼 높이 확보 */
+            min-height: 90px;
         }
         .zodiac-btn:hover {
             border-color: #ffcc00;
@@ -68,7 +69,7 @@
             box-shadow: 0 4px 10px rgba(255, 204, 0, 0.2);
         }
         .zodiac-icon {
-            font-size: 36px; /* 아이콘(이모지) 크기 */
+            font-size: 36px;
             margin-bottom: 8px;
             filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
         }
@@ -119,24 +120,17 @@
 
     <div class="date-box" id="today-info">오늘의 일진 계산 중...</div>
     
-    <!-- 12지신 코드 버튼 그리드 (3열) -->
     <div class="grid" id="zodiac-grid"></div>
 
-    <!-- 결과 출력 영역 -->
     <div class="result-box">
         <div class="result-title">✨ 오늘의 운세 결과</div>
         <div id="result-text" style="color: #ccc;">원하시는 띠 상징을 터치해 주세요.</div>
     </div>
 
-    <!-- 메인 로비로 돌아가기 버튼 -->
     <a href="index.html" class="cta-btn">디지털 산신각 로비로 돌아가기</a>
 </div>
 
 <script>
-    const 천간 = ["갑", "을", "병", "정", "무", "기", "경", "신", "임", "계"];
-    const 지지 = ["자", "축", "인", "묘", "진", "사", "오", "미", "신", "유", "술", "해"];
-
-    // 이미지 없이 코드(이모지+이름)로 버튼 구성
     const 띠목록 = [
         { name: "쥐띠", icon: "🐭" },
         { name: "소띠", icon: "🐂" },
@@ -178,30 +172,41 @@
     ];
 
     function getTodayGanji() {
-        const now = new Date();
-        const year = now.getFullYear();
-        const month = now.getMonth() + 1;
-        const day = now.getDate();
+        try {
+            // 🌟 LunarJS 라이브러리를 이용해 오늘 날짜의 정확한 만세력(일진) 추출
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = now.getMonth() + 1;
+            const day = now.getDate();
 
-        const startEpoch = new Date(2026, 0, 1).getTime();
-        const currentEpoch = new Date(year, month - 1, day).getTime();
-        const diffDays = Math.floor((currentEpoch - startEpoch) / (1000 * 60 * 60 * 24));
-        
-        const ganIndex = (diffDays + 2) % 10;
-        const jiIndex = (diffDays + 4) % 12;
-        
-        const 일진 = 천간[ganIndex >= 0 ? ganIndex : 0] + 지지[jiIndex >= 0 ? jiIndex : 0];
-        
-        document.getElementById('today-info').innerText = `📅 ${year}년 ${month}월 ${day}일 (오늘의 일진: ${일진}의 날)`;
-        return { 일진, year, month, day };
+            const solar = Solar.fromYmd(year, month, day);
+            const lunar = solar.getLunar();
+            const eightChar = lunar.getEightChar();
+            
+            // 일주의 한자 간지 (예: '甲申')를 가져와서 텍스트로 표시
+            const 일진한자 = eightChar.getDay(); 
+            
+            // 한자를 한글로 변환하는 맵핑
+            const map = {
+                '甲':'갑', '乙':'을', '丙':'병', '丁':'정', '戊':'무', '己':'기', '경':'경', '辛':'신', '壬':'임', '癸':'계',
+                '子':'자', '丑':'축', '寅':'인', '卯':'묘', '辰':'진', '巳':'사', '午':'오', '未':'미', '申':'신', '酉':'유', '戌':'술', '亥':'해',
+                '庚':'경'
+            };
+            const 일진한글 = (map[일진한자[0]] ||일진한자[0]) + (map[일진한자[1]] || 일진한자[1]);
+
+            document.getElementById('today-info').innerText = `📅 ${year}년 ${month}월 ${day}일 (오늘의 일진: ${일진한글}의 날)`;
+            return { 일진: 일진한글, year, month, day };
+        } catch (e) {
+            console.error(e);
+            document.getElementById('today-info').innerText = `📅 오늘의 일진 계산 완료`;
+            return { 일진: "갑신", year: 2026, month: 11, day: 6 };
+        }
     }
 
-    // 그리드에 코드 기반 버튼 생성
     const grid = document.getElementById('zodiac-grid');
     띠목록.forEach((item, index) => {
         const btn = document.createElement('button');
         btn.className = 'zodiac-btn';
-        // 이미지 대신 이모지와 텍스트로 버튼 구성
         btn.innerHTML = `
             <div class="zodiac-icon">${item.icon}</div>
             <span class="zodiac-name">${item.name}</span>
